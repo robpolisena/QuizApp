@@ -44,7 +44,7 @@ CREATE TABLE quizzes
   name TEXT,
   isPublic BOOLEAN,
   isReady BOOLEAN,
-  -- difficulty VARCHAR(55) NOT NULL CHECK (difficulty = 'Easy' OR 'Medium' OR 'Hard'),
+  -- difficulty VARCHAR(55) NOT NULL CHECK (difficulty LIKE 'Easy' OR 'Medium' OR 'Hard'),
   date_created  DATE NOT NULL,
   points_allocated SMALLINT
 );
@@ -53,21 +53,19 @@ CREATE TABLE quizzes
 CREATE TABLE completed_quizzes
     (
       id SERIAL PRIMARY KEY NOT NULL,
-      quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
+      quiz_id SMALLINT REFERENCES quizzes(id) ON DELETE CASCADE,
       player_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       score SMALLINT NOT NULL,
-      completed_date TIMESTAMP,
+      completed_date DATE,
       points_gotten SMALLINT NOT NULL
     );
-
-
 
 
 CREATE TABLE question_answer
     (
       id SERIAL PRIMARY KEY NOT NULL,
-      question_id INTEGER REFERENCES questions(id) ON DELETE CASCADE,
-      answer_id INTEGER REFERENCES options(id) ON DELETE CASCADE
+      question_id SMALLINT REFERENCES questions(id) ON DELETE CASCADE,
+      answer_id SMALLINT REFERENCES options(id) ON DELETE CASCADE
     );
 
 CREATE TABLE question_option
