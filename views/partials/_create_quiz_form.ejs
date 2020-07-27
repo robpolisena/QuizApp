@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+ <head>
+<title>QuizApp</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Form to create a quiz  -->
+<form>
+  <div class="create_quiz jumbotron">
+    <h2> Create a quiz</h2>
+      <div class="form">
+        <div class="quiz-name">
+          <label> 1. Please enter the name of the quiz</label>
+          <input type="text" id="name-input" placeholder="Quiz name">
+        </div>
+      </div>
+      <!-- Dropdown categories  -->
+      <div class="form-group">
+                <label for="exampleFormControlSelect1"> 2. Select a category</label>
+                  <select class="form-control" id="exampleFormControlSelect1">
+                      <option>Sports</option>
+                      <option>Animals</option>
+                      <option>Celebrities</option>
+                      <option>Entartainment</option>
+                      <option>Vehicles</option>
+                  </select>
+      </div>
+    <!--   -------- Questions + options ----- -->
+    <!-- question 1 text -->
+      <div class="question-text">
+        <label> 3. Enter your Question 1 and possible options:</label>
+        <input type="text" id="question1-input" class="form-control form-control-lg" type="text" placeholder="Question 1">
+     </div>
+         <!-- question 1 options -->
+         <div class="options_question1">
+          <div>
+            <div class="col">
+              <input type="text" placeholder="Answer option 1">
+           </div>
+           <div class="col">
+              <input type="text" placeholder="Answer option 2">
+           </div>
+          <div class="col">
+             <input type="text" placeholder="Answer option 3">
+           </div>
+          <div class="col">
+            <p> Correct answer : </p>
+             <input type="text"  placeholder="Answer">
+          </div>
+            </div>
+        </div>
+    </div>
+  </form>
+</body>
+</html>

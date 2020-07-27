@@ -1,17 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
-
+    <!-- Bootstrap link  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- FontAwesome Link  -->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <!-- Iconify Link  -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <!-- JQuery  -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <title>QuizApp</title>
+    <!-- Stylesheeets  -->
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
+    <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
+     <!-- Javascript  -->
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
-
   <body>
-    <h1>Quiz App</h1>
+    <!-- Navbar  -->
+    <%- include('partials/_header') %>
+
+    <section id="quiz-container">
+      <div class="container">
+      <div class="row">
+        <div class="col-3">
+          <span class="quiz-profile"><img class="avatar" src="/QuizApp/public/images/account-icon-avatar-icon-human-icon-png-favpng-iVx59N6usuf5BvihHqjR7zUWv.jpg">John Smith</span>
+          <div>
+            <span><button type="button" class="btn btn-danger btn-rounded">My Quizzes</button></span>
+          <span><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></span>
+          <div>
+          </div>
+
+          </div>
+          </div>
+        <div class="col-9">
+          <div class="list-top">
+            <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
+            <span class="quiz-right"> Sort by <button type="button" class="btn btn-warning">Most Popular</button> <button type="button" class="btn btn-warning">Most Recent</button></span>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>
 </html>
