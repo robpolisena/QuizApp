@@ -23,4 +23,15 @@ const router  = express.Router();
 //    });
 // return router;
 // }
+// module.exports = (db) => {
 
+// router.get("/quizzes/new", (req, res) => {
+//   res.render("create_quiz_form");
+  //console.log(req.body)
+// })
+// router.post("/new", (req, res) => {
+  //res.render("create_quiz_form");
+  // console.log(req.body)
+// })
+//   return router;
+// }
