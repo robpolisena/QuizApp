@@ -5,11 +5,8 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 const express = require('express');
+const dbParams = require('../lib/db');
 const router  = express.Router();
-const app = express();
-
-
-
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -25,60 +22,7 @@ module.exports = (db) => {
       });
   });
 
-
-
-  // router.use("/test", (req, res) => {
-  //   console.log("test123");
-  //   res.send("hello");
-  // });
-
-  // app.post("/urls/:shortURL/delete", (req, res) => {
-  //   if (users[req.session['user_id']]) {
-  //     delete urlDatabase[req.params.shortURL];
-  //     res.redirect("/urls");
-  //   }
-  // });
-
-
-
-// When user accesses the root page
-// router.get("/", (req, res) => {
-//   if (req.session['user_id']) {
-//     res.redirect("/urls");
-//   } else  {
-//     res.redirect("/login");
-//   }
-// });
-
-  router.get("/test", (req, res) => {
-    let query = `SELECT *
-FROM quizzes;`;
-    db.query(query)
-      .then(data => {
-        const quizzes = data.rows;
-        res.send({quizzes})
-       // res.render("urls_list_of_quizzes", quizzes);
-
-       // res.send({user: {name: user.name, email: user.email, id: userId}});
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-    })
-return router;
-}
-
-
-
-
-
-
-
-
-
-// // in api routes
+  // // in api routes
 // router.get('/quizzes', (req, res) => {
 //   console.log('get /quizzes happening')
 //   //const getAllQuizzes = function () {
@@ -96,8 +40,34 @@ return router;
 //       .catch(e => {
 //         console.error(e);
 //         res.send(e)
-//       })
-      // return router;
+//       }
+                  router.get("/test", (req, res) => {
+                    let query = `SELECT *
+                  FROM quizzes;`;
+                    db.query(query)
+                      .then(data => {
+                        const quizzes = data.rows;
+                        res.send(quizzes)
+                        // res.render("urls_list_of_quizzes", quizzes);
+                       // res.send({user: {name: user.name, email: user.email, id: userId}});
+                      })
+                      .catch(err => {
+                        res
+                          .status(500)
+                          .json({ error: err.message });
+                      })
+                    })
 
+router.get('/prop', (req, res) => {
+  const queryString = 'SELECT quizzes.name FROM quizzes;'
+  return pool.query(queryString)
+    .then(res => res.rows);
+  //db.getQuizzes(req.queryString)
+ // .then(quizzes => res.send({quizzes}))
+  //.catch(e => {
+    //console.error(e);
+    //res.send(e)
+  })
 
-
+  return router
+}
