@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QuizApp</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Bootstrap link  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+  integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!-- FontAwesome Link  -->
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<!-- Google fonts  -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;700&display=swap" rel="stylesheet">
+<!-- Iconify Link  -->
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+<!-- JQuery  -->
+<script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+<title>QuizApp</title>
+<!-- Stylesheeets  -->
+<link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+<link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+<link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+<link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
+<link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
+<!-- Javascript  -->
+<script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+<body>
+  <!-- Navbar  -->
+  <%- include('partials/_header') %>
+  <div>
+    <div class="row">
+      <!-- Profile section  -->
+      <div class="col-3">
+        <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span class="profile-name"> Welcome <%= userLogin %></span></div>
+        <div class="my_quizzes_btn">
+          <div><button type="button" class="btn btn-danger btn-rounded">My Quizzes</button></div>
+          <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
+        </div>
+      </div>
+      <div class="col-9 main-container">
+
+        <div class="list-top">
+          <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
+          <span class="quiz-right"> Sort by <a href="/api/users/popular" button type="button" class="btn btn-warning">Most Popular</button></a>
+            <span><a href="/api/users/recent" button type="button" class="btn btn-warning">Most Recent</button></a></span>
+        </div>
+        <span>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Quiz</th>
+                <th scope="col">Date Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let quiz in recentQuizzes) { %>
+              <tr>
+                <td> <%= recentQuizzes[quiz].quiz%></td>
+                <td> <%= recentQuizzes[quiz].created%></td>
+                <td>
+                  <form action="/" method="GET">
+                    <button type="button" class="btn btn-primary">Play Quiz</button></form>
+                </td>
+                <% } %>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

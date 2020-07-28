@@ -56,7 +56,7 @@ CREATE TABLE completed_quizzes
       quiz_id SMALLINT REFERENCES quizzes(id) ON DELETE CASCADE,
       player_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       score SMALLINT NOT NULL,
-      completed_date DATE,
+      completed_date DATE NOT NUll,
       points_gotten SMALLINT NOT NULL
     );
 
