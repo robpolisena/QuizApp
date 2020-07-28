@@ -26,23 +26,23 @@
   <!-- Navbar  -->
   <%- include('partials/_header') %>
 
-
-
   <div class="row">
     <div class="col-3">
       <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span
           class="profile-name"> Welcome <%= userLogin %></span></div>
       <div class="my_quizzes_btn">
-        <div><button type="button" class="btn btn-danger btn-rounded">My Quizzes</button></div>
+        <div><a href="/users/myQuizzes/<%= userId %>"><button type="button" button
+          class="btn btn-danger btn-rounded">My Quizzes</button></a></div>
         <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
       </div>
     </div>
     <div class="col-9" class='main-container'>
       <div class="list-top">
-        <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
-        <span class="quiz-right"> Sort by <a href="/users/popular" button type="button" class="btn btn-warning">Most
+        <span class="quiz-top"><strong>Our Most Popular Quizzes</strong></span>
+        <span class="quiz-right"> Sort by <a href="/users/quizzes/popular" button type="button"
+            class="btn btn-warning">Most
             Popular</button></a>
-          <span><a href="/users/recent" button type="button" class="btn btn-warning">Most Recent</button></a></span>
+          <a href="/users/quizzes/recent" button type="button" class="btn btn-warning">Most Recent</button></a>
       </div>
       <span>
         <table class="table">
@@ -82,3 +82,5 @@
 </body>
 
 </html>
+
+

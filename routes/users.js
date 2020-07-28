@@ -45,18 +45,20 @@ module.exports = (db) => {
 
   // Root api/users
   router.get("/", (req, res) => {
-    let query = `SELECT quizzes.name as quiz, users.name as user
+    let query = `SELECT quizzes.name as quiz, users.name as user, users.id as userId, categories.name as category
                     FROM quizzes
-                    JOIN users ON owner_id = users.id;`;
+                    JOIN users ON owner_id = users.id
+                    JOIN categories ON category_id = categories.id`;
     db.query(query)
       .then((data) => {
         //const templateVars = { urls: userURLs, user: users[req.session['user_id']]};
         //const userLogin = data.rows[]; <%= userLogin %>
-        // console.log(userLogin);
+        const userId = data.rows[0].userid;
         const userLogin = data.rows[0].user;
+        //console.log(userLogin);
         const quizzes = data.rows;
         //console.log(quizzes, 'data with users and names');
-        res.render("index", { quizzes, userLogin });
+        res.render("index", { quizzes, userLogin, userId });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
@@ -64,7 +66,30 @@ module.exports = (db) => {
   });
 
   // Most Recent
-  router.get("/recent", (req, res) => {
+  router.get("/myQuizzes/:id", (req, res) => {
+    const userId = req.params.id;
+
+    let query = `SELECT quizzes.name as quiz, date_created as Created, users.name as Creator
+                FROM quizzes
+                JOIN users ON owner_id = users.id
+                WHERE quizzes.owner_id = ${userId}
+                ORDER BY created DESC`;
+    db.query(query)
+      .then((data) => {
+        // const userLogin = data.rows[0].user;
+        const userLogin = data.rows[0].creator;
+        const myQuizzes = data.rows;
+        res.render("my_quizzes", { myQuizzes, userLogin, userId });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+
+
+  // Most Recent
+  router.get("/quizzes/recent", (req, res) => {
     let query = `SELECT quizzes.name as quiz, date_created as Created
                   FROM quizzes
                   ORDER BY created DESC`;
@@ -86,42 +111,120 @@ module.exports = (db) => {
 
   // POPULAR
 
-  router.get("/popular", (req, res) => {
-    let query = `SELECT quizzes.name as quiz, count(completed_quizzes.*) as attempts
+  router.get("/quizzes/popular", (req, res) => {
+    let query = `SELECT quizzes.name as quiz, count(completed_quizzes.*) as attempts, quizzes.owner_id as userId
                   FROM quizzes
                   JOIN completed_quizzes ON quizzes.id = completed_quizzes.quiz_id
-                  GROUP BY quizzes.name
+                  GROUP BY quizzes.name, quizzes.owner_id
                   ORDER BY attempts DESC`;
     db.query(query)
       .then((data) => {
         //const templateVars = { urls: userURLs, user: users[req.session['user_id']]};
         //const userLogin = data.rows[]; <%= userLogin %>
-        console.log(data.rows, "data for popelar quiz");
+        //console.log(data.rows[0]);
+        const userId = data.rows[0].userid;
         // const userLogin = data.rows[0].user;
         const popularQuizzes = data.rows;
         const userLogin = "Carlita Bellenger";
 
-        res.render("popular", { popularQuizzes, userLogin });
+        res.render("popular", { popularQuizzes, userLogin, userId });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
 
-  // ANIMALS CATEGORY id 1
+  // ANIMALS CATEGORY id 2
 
-  router.get("/animals", (req, res) => {
+  router.get("/quizzes/animals", (req, res) => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
       FROM quizzes
       JOIN users ON owner_id = users.id
       JOIN categories ON category_id = categories.id
-      WHERE category_id = 2`;
+      WHERE category_id = 2 AND isPublic=true`;
     db.query(query)
       .then((data) => {
         console.log(data.rows, "data for animals category");
         const animalsCategory = data.rows;
         const userLogin = "Carlita Bellenger";
         res.render("animals", { animalsCategory, userLogin });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  // SPORTS CATEGORY id 1
+
+  router.get("/quizzes/sports", (req, res) => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    FROM quizzes
+    JOIN users ON owner_id = users.id
+    JOIN categories ON category_id = categories.id
+    WHERE category_id = 1 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        console.log(data.rows, "data for sports category");
+        const sportsCategory = data.rows;
+        const userLogin = "Carlita Bellenger";
+        res.render("sports", { sportsCategory, userLogin });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  // CELEBRITIES CATEGORY id 4
+
+  router.get("/quizzes/celebrities", (req, res) => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    FROM quizzes
+    JOIN users ON owner_id = users.id
+    JOIN categories ON category_id = categories.id
+    WHERE category_id = 4 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        const celebritiesCategory = data.rows;
+        const userLogin = "Carlita Bellenger";
+        res.render("celebrities", { celebritiesCategory, userLogin });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  // ENTARTAINMENT CATEGORY id 5
+
+  router.get("/quizzes/entartainment", (req, res) => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+      FROM quizzes
+      JOIN users ON owner_id = users.id
+      JOIN categories ON category_id = categories.id
+      WHERE category_id = 5 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        const entartainmentCategory = data.rows;
+        const userLogin = "Carlita Bellenger";
+        res.render("entartainment", { entartainmentCategory, userLogin });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  // VEHICLES CATEGORY id 3
+
+  router.get("/quizzes/vehicles", (req, res) => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+      FROM quizzes
+      JOIN users ON owner_id = users.id
+      JOIN categories ON category_id = categories.id
+      WHERE category_id = 3 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        const vehiclesCategory = data.rows;
+        const userLogin = "Carlita Bellenger";
+        res.render("vehicles", { vehiclesCategory, userLogin });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
