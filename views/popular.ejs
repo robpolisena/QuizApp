@@ -28,45 +28,47 @@
 
 
 
-      <div class="row">
-        <div class="col-3">
-          <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span class="profile-name"> Welcome <%= userLogin %></span></div>
-          <div class="my_quizzes_btn">
-            <div><button type="button" class="btn btn-danger btn-rounded">My Quizzes</button></div>
-            <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
-          </div>
-        </div>
-        <div class="col-9" class='main-container'>
-          <div class="list-top">
-            <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
-            <span class="quiz-right"> Sort by <a href="/api/users/popular" button type="button" class="btn btn-warning">Most Popular</button></a>
-              <span><a href="/api/users/recent" button type="button" class="btn btn-warning">Most Recent</button></a></span>
-          </div>
-          <span>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Quiz</th>
-                  <th scope="col">People attempted</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for(let quiz in popularQuizzes) { %>
-                <tr>
-                  <td> <%= popularQuizzes[quiz].quiz%></td>
-                  <td> <%= popularQuizzes[quiz].attempts%></td>
-                  <td>
-                    <form action="/" method="GET">
-                      <button type="button" class="btn btn-primary">Play Quiz</button></form>
-                  </td>
-                  <% } %>
-                </tr>
-              </tbody>
-            </table>
-          </span>
-        </div>
+  <div class="row">
+    <div class="col-3">
+      <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span
+          class="profile-name"> Welcome <%= userLogin %></span></div>
+      <div class="my_quizzes_btn">
+        <div><button type="button" class="btn btn-danger btn-rounded">My Quizzes</button></div>
+        <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
       </div>
-    <!-- </div>
+    </div>
+    <div class="col-9" class='main-container'>
+      <div class="list-top">
+        <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
+        <span class="quiz-right"> Sort by <a href="/users/popular" button type="button" class="btn btn-warning">Most
+            Popular</button></a>
+          <span><a href="/users/recent" button type="button" class="btn btn-warning">Most Recent</button></a></span>
+      </div>
+      <span>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Quiz</th>
+              <th scope="col">People attempted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let quiz in popularQuizzes) { %>
+            <tr>
+              <td> <%= popularQuizzes[quiz].quiz%></td>
+              <td> <%= popularQuizzes[quiz].attempts%></td>
+              <td>
+                <form action="/" method="GET">
+                  <button type="button" class="btn btn-primary">Play Quiz</button></form>
+              </td>
+              <% } %>
+            </tr>
+          </tbody>
+        </table>
+      </span>
+    </div>
+  </div>
+  <!-- </div>
   </section> -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

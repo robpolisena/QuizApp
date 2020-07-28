@@ -1,15 +1,11 @@
 // See: https://sass-lang.com/
 
-
-
 body {
   background-color: #edf6f9;
-
 }
-  h1 {
-    color: #244751;
-  }
-
+h1 {
+  color: #244751;
+}
 
 .container {
   display: flex;
@@ -17,14 +13,13 @@ body {
   margin-top: 5px;
 }
 
-
 .row {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-  // Profile section
+// Profile section
 .col-3 {
   border: 1px solid red;
   max-width: 100%;
@@ -36,11 +31,9 @@ body {
 }
 // Buttons under profile picture
 .my_quizzes_btn {
-  display:flex;
-  justify-content : space-between;
+  display: flex;
+  justify-content: space-between;
 }
-
-
 
 .col-9 {
   max-width: 100%;
@@ -56,16 +49,13 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  }
-
-
+}
 
 @media only screen and (min-width: 768px) {
-
-.profile-name {
-  display: flex;
-  justify-content: center;
-}
+  .profile-name {
+    display: flex;
+    justify-content: center;
+  }
 
   .container {
     padding: 0;
@@ -78,21 +68,21 @@ body {
     margin-left: 5px;
     margin-right: 5px;
   }
-    .col-3 {
-      border: 1px solid black;
-      height: 700px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 0;
-    }
+  .col-3 {
+    border: 1px solid black;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+  }
 
-    .col-9 {
-      border: 1px solid black;
-      display: flex;
-      flex-direction: column;
-      height: 700px;
-      padding: 0;
+  .col-9 {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    height: 700px;
+    padding: 0;
   }
 
   .quiz-profile {
@@ -119,108 +109,88 @@ body {
   }
 
   .quiz-right {
-    margin-right: 10px
+    margin-right: 10px;
   }
 
+  // NAVBAR CSS
+  .navbar {
+    // color: #457b9d;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
 
+  // Question container CSS
+  article {
+    -webkit-border-radius: 23px;
+    -moz-border-radius: 23px;
+    border-radius: 23px;
+    -webkit-box-shadow: 0px 0px 16px #000000;
+    -moz-box-shadow: 0px 0px 16px #000000;
+    box-shadow: 0px 0px 16px #000000;
+    background-image: -moz-linear-gradient(top, #fff5ee 45%, #e0ffff 98%);
+    background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.45, #fff5ee),
+      color-stop(0.98, #e0ffff)
+    );
+    border: 0px solid #000000;
+    background-color: #fff8dc;
+    padding: 10px;
+    z-index: 10;
+    color: #888888;
+    text-align: center;
+  }
 
+  .options {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 40px;
+    list-style-type: none;
+  }
 
+  .option-container {
+    border: 2px solid #888888;
+    margin: 10%;
+    padding: 8px;
+    width: 250px;
+    border-radius: 10px;
+  }
+  .option-container:hover {
+    box-shadow: 0px 0px 16px #000000;
+  }
 
+  input[type="radio"] {
+    transform: scale(2);
+    margin: 10%;
+    cursor: default;
+  }
+  // button submit quiz
+  #submit_quiz {
+    padding: 3px 22px;
+    padding: 22px 35px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 900;
+    min-width: 140px;
+  }
 
-
-
-
-
-// NAVBAR CSS
-.navbar {
-  // color: #457b9d;
-  width:100%;
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-// Question container CSS
-article {
-  -webkit-border-radius: 23px;
--moz-border-radius: 23px;
-border-radius: 23px;
--webkit-box-shadow: 0px 0px 16px #000000;
--moz-box-shadow: 0px 0px 16px #000000;
-box-shadow: 0px 0px 16px #000000;
-background-image: -moz-linear-gradient(top, #FFF5EE 45%, #E0FFFF 98%);
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.45, #FFF5EE), color-stop(0.98, #E0FFFF));
-border: 0px solid #000000;
-background-color: #FFF8DC;
-padding:10px;
-z-index: 10;
-color: #888888;
-text-align: center;
-}
-
-
-
-.options {
-display:  flex;
-justify-content: space-between;
-padding: 8px 40px;
-list-style-type: none;
-}
-
-.option-container {
-  border: 2px solid #888888;
-  margin: 10%;
-  padding: 8px;
-  width:  250px;
-  border-radius: 10px;
-
-}
-.option-container:hover {
-box-shadow: 0px 0px 16px #000000;
-}
-
-input[type='radio'] {
-   transform: scale(2);
-   margin: 10%;
-  cursor: default;
-}
-// button submit quiz
-#submit_quiz{
-padding: 3px 22px;
-padding: 22px 35px;
-border-radius: 10px;
-font-size: 16px;
-font-weight: 900;
-min-width: 140px;
-}
-
-// Results box CSS
-article{
-  -webkit-border-radius: 17px;
-  -moz-border-radius: 17px;
-  border-radius: 17px;
-  -webkit-box-shadow: 0px 0px 10px #000000;
-  -moz-box-shadow: 0px 0px 10px #000000;
-  box-shadow: 0px 0px 10px #000000;
-  background-color: #FFF5EE;
-  padding: 33px;
-  z-index: -1;
-  font-family: Verdana, Geneva, sans-serif;
-  font-size: 13pt;
-  color: #888888;
-  text-align: center;
+  // Results box CSS
+  article {
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    border-radius: 17px;
+    -webkit-box-shadow: 0px 0px 10px #000000;
+    -moz-box-shadow: 0px 0px 10px #000000;
+    box-shadow: 0px 0px 10px #000000;
+    background-color: #fff5ee;
+    padding: 33px;
+    z-index: -1;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 13pt;
+    color: #888888;
+    text-align: center;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
