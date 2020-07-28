@@ -25,7 +25,7 @@ module.exports = (db) => {
   // });
 
   // // in api routes
-  // router.get('/quizzes', (req, res) => {
+  // router.get('/quizzes', (req, res) => {git
   //   console.log('get /quizzes happening')
   //   //const getAllQuizzes = function () {
   //     const query = (`SELECT quizzes.name
