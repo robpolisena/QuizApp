@@ -86,7 +86,7 @@ module.exports = (db) => {
       })
   })
 
-  router.post("/quizzes/new", async(req, res) => {
+  router.post("/quizzes/new", (req, res) => {
     //  return pool.query(queryRequest, [user.name, user.email, user.password])
     //   .then(res => res.rows[0]);
     //res.render("create_quiz_form");
@@ -156,23 +156,48 @@ module.exports = (db) => {
         question5_option3,
         question5_answer]
 
-        const quizzesRequest = `INSERT INTO quizzes (owner_id, name, category_id, isPublic, isReady, date_created, points_allocated) VALUES ($1, $2, $3, $4, $5, now()::date, $6) RETURNING id AS quiz_id;`
+      //   function (req, res) {
+      //     db.tx(async t => { // automatic BEGIN
+      //             let data = await t.one('INSERT_1 VALUES(...) RETURNING id', paramValues);
+      //             let q = await t.none('INSERT_2 VALUES(...)', data.id);
+      //             if (req.body.value != null) {
+      //                 return await t.none('INSERT_3 VALUES(...)', data.id);
+      //             }
+      //             return q;
+      //         })
+      //         .then(data => {
+      //             res.send("Everything's fine!"); // automatic COMMIT was executed
+      //         })
+      //         .catch(error => {
+      //             res.send("Something is wrong!"); // automatic ROLLBACK was executed
+      //         });
+      // }
 
-        db.query(quizzesRequest, quizValues)
-              .then(quizData => {
+      db.query (async t => {
+        const quizzesRequest = await t.one(`INSERT INTO quizzes (owner_id, name, category_id, isPublic, isReady, date_created, points_allocated) VALUES ($1, $2, $3, $4, $5, now()::date, $6) RETURNING id AS quiz_id;`);
+        const questionRequest = await t.one(`INSERT INTO questions (question) VALUES ($1) RETURNING id AS question_id;`, quizzesRequest.id);
+        const optionRequest = await t.one(`INSERT INTO options (option) VALUES ($1), ($2), ($3), ($4), ($5), ($6), ($7), ($8), ($9), ($10), ($11), ($12), ($13), ($14), ($15), ($16), ($17), ($18), ($19), ($20) RETURNING id AS option_id;`, questionRequest.id)
+        return optionRequest;
+      })
+      .then(quizData => {
+        console.log(quizData.rows, 'quiz_id')
+        //res.send("Everything's fine!"); // automatic COMMIT was executed
+
+      })
+        // db.query(quizzesRequest, quizValues)
+        //       .then(quizData => {
                 //console.log(data.rows, 'data rows 1')
                 //console.log(quizData.rows[0].quiz_id, 'quiz_id')
 
-              })
+              //})
 
 
-    const questionRequest = `INSERT INTO questions (question) VALUES ($1) RETURNING id AS question_id;`
     //           console.log(questionValues[0]);
 
-    db.query(questionRequest, questionValues[0])
-        .then(questionData => {
-      console.log(questionData, 'questionData')
-        })
+    // db.query(questionRequest, questionValues[0])
+    //     .then(questionData => {
+    //   console.log(questionData, 'questionData')
+    //     })
 
     // console.log("done with query");
 
