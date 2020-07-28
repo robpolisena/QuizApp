@@ -27,9 +27,9 @@
   <%- include('partials/_header') %>
 
 
-     <div class="container">
+
       <div class="row">
-        <div class="col-3 profile">
+        <div class="col-3">
           <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span class="profile-name"> Welcome <%= userLogin %></span></div>
           <div class="my_quizzes_btn">
             <div><button type="button" class="btn btn-danger btn-rounded">My Quizzes</button></div>
@@ -40,21 +40,21 @@
           <div class="list-top">
             <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
             <span class="quiz-right"> Sort by <a href="/api/users/popular" button type="button" class="btn btn-warning">Most Popular</button></a>
-              <a href="/api/users/recent"button type="button" class="btn btn-warning">Most Recent</button></a>
+              <span><a href="/api/users/recent" button type="button" class="btn btn-warning">Most Recent</button></a></span>
           </div>
           <span>
             <table class="table">
               <thead>
                 <tr>
                   <th scope="col">Quiz</th>
-                  <th scope="col">Creator</th>
+                  <th scope="col">People attempted</th>
                 </tr>
               </thead>
               <tbody>
-                <% for(let quiz in quizzes) { %>
+                <% for(let quiz in popularQuizzes) { %>
                 <tr>
-                  <td> <%= quizzes[quiz].quiz%></td>
-                  <td> <%= quizzes[quiz].user%></td>
+                  <td> <%= popularQuizzes[quiz].quiz%></td>
+                  <td> <%= popularQuizzes[quiz].attempts%></td>
                   <td>
                     <form action="/" method="GET">
                       <button type="button" class="btn btn-primary">Play Quiz</button></form>
