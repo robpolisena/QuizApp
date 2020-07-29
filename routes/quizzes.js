@@ -4,12 +4,13 @@ const router = express.Router();
 
 module.exports = (db) => {
   router.get("/new", (req, res) => {
-    let query = `SELECT quizzes.name as quiz, users.name as user
+    let query = `SELECT quizzes.name as quiz, users.name as user, users.id as userId
                     FROM quizzes
                     JOIN users ON owner_id = users.id;`;
     db.query(query).then((data) => {
-      const userLogin = "carla"; //data.rows[0].user;
-      res.render("create_quiz_form", { userLogin });
+      const userId = data.rows[0].userid;
+      const userLogin = data.rows[0].user;
+      res.render("create_quiz_form", { userLogin, userId });
       //console.log(req.body)
     });
   });
