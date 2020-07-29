@@ -43,9 +43,48 @@ module.exports = (db) => {
   //         res.send(e)
   //       }
 
+// Attempting a specific quiz
+router.get("/quizzes/:id", (req, res) => {
+    const quizId = req.params.id;
+
+  let query = `SELECT  * FROM (SELECT quizzes.name AS name, quizzes.id AS quiz_id, questions.question AS question, options.option AS Options, FALSE as answer
+    FROM quizzes
+    JOIN quiz_question ON quiz_id = quizzes.id
+    JOIN questions ON questions.id = quiz_question.question_id
+    JOIN question_option ON question_option.question_id = questions.id
+    JOIN options ON options.id = question_option.option_id
+    UNION
+    SELECT quizzes.name AS name, quizzes.id AS quiz_id, questions.question AS question, options.option AS Options, TRUE as answer
+    FROM quizzes
+    JOIN quiz_question ON quiz_id = quizzes.id
+    JOIN questions ON questions.id = quiz_question.question_id
+    JOIN question_answer ON question_answer.question_id = questions.id
+    JOIN options ON options.id = question_answer.answer_id) AS foo
+    WHERE foo.quiz_id = ${quizId}
+    ORDER BY foo.question, foo.answer;
+   `;
+
+   db.query(query)
+     .then((data) => {
+       let templateVars = {
+         quizName: data.rows[0].name, questionName1: data.rows[0].question, q1o1: data.rows[0].options, q1o2: data.rows[1].options, q1o3: data.rows[2].options, q1a1: data.rows[3].options, questionName2: data.rows[4].question, q2o1: data.rows[4].options, q2o2: data.rows[5].options, q2o3: data.rows[6].options, q2a2: data.rows[7].options, questionName3: data.rows[8].question, q3o1: data.rows[8].options, q3o2: data.rows[9].options, q3o3: data.rows[10].options, q3a3: data.rows[11].options, questionName4: data.rows[12].question, q4o1: data.rows[12].options, q4o2: data.rows[13].options, q4o3: data.rows[14].options, q4a4: data.rows[15].options, questionName5: data.rows[16].question, q5o1: data.rows[16].options, q5o2: data.rows[17].options, q5o3: data.rows[18].options, q5a5: data.rows[19].options }
+console.log(templateVars,'templateVars')       // console.log(templateVars5,'templateVars5')
+
+       res.render("play_quiz", { templateVars });
+      //  res.render("play_quiz", { templateVars }, { templateVars2 }, { templateVars3 }, { templateVars4 }, { templateVars5 });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+
+
+
   // Root api/users
   router.get("/", (req, res) => {
-    let query = `SELECT quizzes.name as quiz, users.name as user, users.id as userId, categories.name as category
+
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
                     FROM quizzes
                     JOIN users ON owner_id = users.id
                     JOIN categories ON category_id = categories.id`;
@@ -55,7 +94,7 @@ module.exports = (db) => {
         //const userLogin = data.rows[]; <%= userLogin %>
         const userId = data.rows[0].userid;
         const userLogin = data.rows[0].user;
-        //console.log(userLogin);
+        console.log(data.rows);
         const quizzes = data.rows;
         //console.log(quizzes, 'data with users and names');
         res.render("index", { quizzes, userLogin, userId });
@@ -211,6 +250,7 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
+
 
   // VEHICLES CATEGORY id 3
 

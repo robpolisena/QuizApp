@@ -16,7 +16,7 @@ insert into question_option (question_id, option_id) values (1, 3);
 insert into question_option (question_id, option_id) values (1, 4);
 
 ------
-insert into questions (question) values ('For what reason would a spotted hyena laugter');
+insert into questions (question) values ('For what reason would a spotted hyena laugh?');
 -- // Options for "Animals" question 2
 insert into options (option) values ('Nervousness');
 insert into options (option) values ('Excitement');

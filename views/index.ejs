@@ -62,8 +62,7 @@
                 <td> <%= quizzes[quiz].category%></td>
                 <td> <%= quizzes[quiz].user%></td>
                 <td>
-                  <form action="/" method="GET">
-                    <button type="button" class="btn btn-primary">Play Quiz</button></form>
+                  <a href="/users/quizzes/<%= quizzes[quiz].quizid%>"> <button type="button" class="btn btn-primary">Play Quiz</button></a>
                 </td>
                 <% } %>
               </tr>
