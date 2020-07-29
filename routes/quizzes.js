@@ -123,7 +123,7 @@ module.exports = (db) => {
 
     //Function to insert the quiz_question table
     const insertQuizQuestion = function (quizId, questionId) {
-      const quizQuestionQuerry = `INSERT INTO quiz_question (quiz_id, question_id) VALUES ($1, $2) RETURNING id AS quizQuestion_id;`;
+      const quizQuestionQuerry = `INSERT INTO quiz_question (quiz_id, question_id) VALUES ($1, $2) RETURNING id AS quiz_question_id;`;
       return db
         .query(quizQuestionQuerry, [quizId, questionId])
         .then((quizQuestionRes) => {
@@ -163,17 +163,10 @@ module.exports = (db) => {
       .catch((err) => console.error("query error", err.stack));
   });
 
-  // INSERT INTO quizzes (owner_id, name, category_id, isPublic, isReady, date_created, points_allocated) VALUES ($1, $2, $3, $4, $5, now()::date, $6) RETURNING id AS quiz_id; INSERT INTO quiz_question (quiz_id, question_id) VALUES ($1, $2) RETURNING id AS quizQuestion_id;INSERT INTO quiz_question (quiz_id, question_id) VALUES ();
   // INSERT INTO question_answer (question_id, answer_id) VALUES ();
   // INSERT INTO question_option (question_id, option_id) VALUES ();
   // INSERT INTO question_option (question_id, option_id) VALUES ();
   // INSERT INTO question_option (question_id, option_id) VALUES ();
-  // const quizQuestionValue = [
-  //   quizRes.rows[0].quiz_id,
-  //   questionRes.rows[0].question_id,
-  // ];
-
-  // INSERT INTO quizzes (...) VALUES (...); INSERT INTO quiz_questions () VALUES ();
 
   return router;
 };

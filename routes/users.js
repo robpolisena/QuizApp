@@ -43,11 +43,12 @@ module.exports = (db) => {
   //         res.send(e)
   //       }
 
-// Attempting a specific quiz
-router.get("/quizzes/:id", (req, res) => {
+  // Attempting a specific quiz
+  router.get("/quizzes/:id", (req, res) => {
     const quizId = req.params.id;
-
-  let query = `SELECT  * FROM (SELECT quizzes.name AS name, quizzes.id AS quiz_id, questions.question AS question, options.option AS Options, FALSE as answer
+    // console.log("HELLO", quizId);
+    // console.log("YOU ARE HERE", req.params);
+    let query = `SELECT  * FROM (SELECT quizzes.name AS name, quizzes.id AS quiz_id, questions.question AS question, options.option AS Options, FALSE as answer
     FROM quizzes
     JOIN quiz_question ON quiz_id = quizzes.id
     JOIN questions ON questions.id = quiz_question.question_id
@@ -64,26 +65,65 @@ router.get("/quizzes/:id", (req, res) => {
     ORDER BY foo.question, foo.answer;
    `;
 
-   db.query(query)
-     .then((data) => {
-       let templateVars = {
-         quizName: data.rows[0].name, questionName1: data.rows[0].question, q1o1: data.rows[0].options, q1o2: data.rows[1].options, q1o3: data.rows[2].options, q1a1: data.rows[3].options, questionName2: data.rows[4].question, q2o1: data.rows[4].options, q2o2: data.rows[5].options, q2o3: data.rows[6].options, q2a2: data.rows[7].options, questionName3: data.rows[8].question, q3o1: data.rows[8].options, q3o2: data.rows[9].options, q3o3: data.rows[10].options, q3a3: data.rows[11].options, questionName4: data.rows[12].question, q4o1: data.rows[12].options, q4o2: data.rows[13].options, q4o3: data.rows[14].options, q4a4: data.rows[15].options, questionName5: data.rows[16].question, q5o1: data.rows[16].options, q5o2: data.rows[17].options, q5o3: data.rows[18].options, q5a5: data.rows[19].options }
-console.log(templateVars,'templateVars')       // console.log(templateVars5,'templateVars5')
+    db.query(query)
+      .then((data) => {
+        let templateVars = {
+          quizName: data.rows[0].name,
+          quizId: data.rows[0].quiz_id,
+          questionName1: data.rows[0].question,
+          q1o1: data.rows[0].options,
+          q1o2: data.rows[1].options,
+          q1o3: data.rows[2].options,
+          q1a1: data.rows[3].options,
+          questionName2: data.rows[4].question,
+          q2o1: data.rows[4].options,
+          q2o2: data.rows[5].options,
+          q2o3: data.rows[6].options,
+          q2a2: data.rows[7].options,
+          questionName3: data.rows[8].question,
+          q3o1: data.rows[8].options,
+          q3o2: data.rows[9].options,
+          q3o3: data.rows[10].options,
+          q3a3: data.rows[11].options,
+          questionName4: data.rows[12].question,
+          q4o1: data.rows[12].options,
+          q4o2: data.rows[13].options,
+          q4o3: data.rows[14].options,
+          q4a4: data.rows[15].options,
+          questionName5: data.rows[16].question,
+          q5o1: data.rows[16].options,
+          q5o2: data.rows[17].options,
+          q5o3: data.rows[18].options,
+          q5a5: data.rows[19].options,
+        };
+        console.log(templateVars, "templateVars"); // console.log(templateVars5,'templateVars5')
 
-       res.render("play_quiz", { templateVars });
-      //  res.render("play_quiz", { templateVars }, { templateVars2 }, { templateVars3 }, { templateVars4 }, { templateVars5 });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
+        res.render("play_quiz", { templateVars });
+        //  res.render("play_quiz", { templateVars }, { templateVars2 }, { templateVars3 }, { templateVars4 }, { templateVars5 });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
 
+  ///users/quizzes/result POST route
+  router.post("/quizzes/result", (req, res) => {
+    const score = req.body.score;
+    const quizId = req.body.quiz_id;
+    console.log("THIS IS THE req.body", req.body);
+    console.log("THIS IS THE SCORE", score);
+    const queryValues = [quizId, 1, score, 10];
+    const query = `INSERT INTO completed_quizzes (quiz_id, player_id, score, completed_date, points_gotten) VALUES ($1, $2, $3, now()::date, $4) RETURNING *;`;
 
+    db.query(query, queryValues)
+      .then((res) => {})
+      .catch((err) => console.error("query error", err.stack));
 
+    res.render("results-box", { score });
+  });
 
   // Root api/users
   router.get("/", (req, res) => {
-
     let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
                     FROM quizzes
                     JOIN users ON owner_id = users.id
@@ -108,7 +148,7 @@ console.log(templateVars,'templateVars')       // console.log(templateVars5,'tem
   router.get("/myQuizzes/:id", (req, res) => {
     const userId = req.params.id;
 
-    let query = `SELECT quizzes.name as quiz, date_created as Created, users.name as Creator
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quiz_id date_created as Created, users.name as Creator
                 FROM quizzes
                 JOIN users ON owner_id = users.id
                 WHERE quizzes.owner_id = ${userId}
@@ -118,14 +158,13 @@ console.log(templateVars,'templateVars')       // console.log(templateVars5,'tem
         // const userLogin = data.rows[0].user;
         const userLogin = data.rows[0].creator;
         const myQuizzes = data.rows;
+        console.log("MY QUIZZES", data.rows);
         res.render("my_quizzes", { myQuizzes, userLogin, userId });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
-
-
 
   // Most Recent
   router.get("/quizzes/recent", (req, res) => {
@@ -250,7 +289,6 @@ console.log(templateVars,'templateVars')       // console.log(templateVars5,'tem
         res.status(500).json({ error: err.message });
       });
   });
-
 
   // VEHICLES CATEGORY id 3
 
