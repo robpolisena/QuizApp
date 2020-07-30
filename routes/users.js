@@ -74,6 +74,7 @@ module.exports = (db) => {
   };
 
 
+
   const findUserByEmail = (email) => {
     //console.log(`email from find userbyemai: ${email}`)
 let values = [email]
@@ -151,6 +152,14 @@ let values = [email]
       WHERE quizzes.owner_id = ${idForUser}
       ORDER BY date DESC`;
       db.query(query)
+      
+  // Root api/users
+  // router.get("/", (req, res) => {
+  //   let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
+  //                   FROM quizzes
+  //                   JOIN users ON owner_id = users.id
+  //                   JOIN categories ON category_id = categories.id`;
+  //   db.query(query)
       .then((data) => {
         //const userLogin = data.rows[0];
         console.log(data.rows);
@@ -164,28 +173,27 @@ let values = [email]
   })
   });
 
-// Specific Quiz
-      router.get("/myQuizzes/:id", (req, res) => {
-          const userId = req.params.id;
-          let query = `SELECT quizzes.name as quiz, date_created as Created, users.name as Creator
-          FROM quizzes
-          JOIN users ON owner_id = users.id
-          WHERE quizzes.owner_id = ${userId}
-          ORDER BY created DESC`;
-          db.query(query)
-          .then((data) => {
-            // const userLogin = data.rows[0].user;
-            const userLogin = data.rows[0].creator;
+  // Most Recent
+  router.get("/myQuizzes/:id", (req, res) => {
+    const userId = req.params.id;
+
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quiz_id date_created as Created, users.name as Creator
+                FROM quizzes
+                JOIN users ON owner_id = users.id
+                WHERE quizzes.owner_id = ${userId}
+                ORDER BY created DESC`;
+    db.query(query)
+      .then((data) => {
+        // const userLogin = data.rows[0].user;
+        const userLogin = data.rows[0].creator;
         const myQuizzes = data.rows;
-        //console.log(myQuizzes);
+        console.log("MY QUIZZES", data.rows);
         res.render("my_quizzes", { myQuizzes, userLogin, userId });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
-
-
 
   // Most Recent
   router.get("/quizzes/recent", (req, res) => {
@@ -327,6 +335,100 @@ let values = [email]
     });
   });
 
+
+
+  // ANIMALS CATEGORY id 2
+
+  router.get("/quizzes/animals", (req, res) => {
+   // console.log(req.session['user_id'].user_id, 'req.session USER id')
+   const userid = req.session['user_id'].user_id;
+   userName(userid)
+    .then(person => {
+        let query = `SELECT quizzes.name as quiz, categories.name as category
+        FROM quizzes
+        JOIN users ON owner_id = users.id
+        JOIN categories ON category_id = categories.id
+        WHERE category_id = 2 AND isPublic=true`;
+      db.query(query)
+        .then((data) => {
+          console.log(data.rows[0]);
+          const animalsCategory = data.rows;
+          //const userLogin = "Carlita Bellenger";
+          res.render("animals", { animalsCategory, person});
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err.message });
+        });
+    })
+  });
+
+  // SPORTS CATEGORY id 1
+
+  router.get("/quizzes/sports", (req, res) => {
+    const userid = req.session['user_id'].user_id;
+    userName(userid)
+     .then(person => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    FROM quizzes
+    JOIN users ON owner_id = users.id
+    JOIN categories ON category_id = categories.id
+    WHERE category_id = 1 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        console.log(data.rows, "data for sports category");
+        const sportsCategory = data.rows;
+        res.render("sports", { sportsCategory, person });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+      });
+  });
+
+  // CELEBRITIES CATEGORY id 4
+
+  router.get("/quizzes/celebrities", (req, res) => {
+    const userid = req.session['user_id'].user_id;
+    userName(userid)
+     .then(person => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    FROM quizzes
+    JOIN users ON owner_id = users.id
+    JOIN categories ON category_id = categories.id
+    WHERE category_id = 4 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        const celebritiesCategory = data.rows;
+        const userLogin = "Carlita Bellenger";
+        res.render("celebrities", { celebritiesCategory, person });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+      });
+  });
+
+  // ENTARTAINMENT CATEGORY id 5
+
+  router.get("/quizzes/entartainment", (req, res) => {
+    const userid = req.session['user_id'].user_id;
+    userName(userid)
+     .then(person => {
+    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+      FROM quizzes
+      JOIN users ON owner_id = users.id
+      JOIN categories ON category_id = categories.id
+      WHERE category_id = 5 AND isPublic=true`;
+    db.query(query)
+      .then((data) => {
+        const entartainmentCategory = data.rows;
+        res.render("entartainment", { entartainmentCategory, person });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+    });
+  });
 
   // VEHICLES CATEGORY id 3
 
@@ -474,8 +576,5 @@ router.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/users/login");
 });
-
-return router
-
+return router;
 }
-

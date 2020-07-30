@@ -10,6 +10,7 @@
   <!-- Google fonts  -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   <!-- Iconify Link  -->
   <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   <!-- JQuery  -->
@@ -22,7 +23,6 @@
   <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
   <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
   <!-- Javascript  -->
-  <script type="text/javascript" src="/scripts/app.js"></script>
 </head>
 
 <body>
@@ -70,6 +70,28 @@
           </table>
         </span>
       </div>
+      <span>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Quiz</th>
+              <th scope="col">People attempted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let quiz in popularQuizzes) { %>
+            <tr>
+              <td> <%= popularQuizzes[quiz].quiz%></td>
+              <td> <%= popularQuizzes[quiz].attempts%></td>
+              <td>
+                <form action="/myQuizzes/<%=1%>" method="GET">
+                  <button type="button" class="btn btn-primary">Play Quiz</button></form>
+              </td>
+              <% } %>
+            </tr>
+          </tbody>
+        </table>
+      </span>
     </div>
     <!-- </div>
   </section> -->
