@@ -152,7 +152,19 @@ let values = [email]
       WHERE quizzes.owner_id = ${idForUser}
       ORDER BY date DESC`;
       db.query(query)
-      
+      .then((data) => {
+        //const userLogin = data.rows[0];
+        console.log(data.rows);
+    const myQuizzes = data.rows;
+    console.log(myQuizzes, 'myQuizzes');
+    res.render("completed-quizzes", {myQuizzes, person});
+    })
+    .catch((err) => {
+    res.status(500).json({ error: err.message });
+    });
+    })
+    });
+
   // Root api/users
   // router.get("/", (req, res) => {
   //   let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
@@ -160,24 +172,12 @@ let values = [email]
   //                   JOIN users ON owner_id = users.id
   //                   JOIN categories ON category_id = categories.id`;
   //   db.query(query)
-      .then((data) => {
-        //const userLogin = data.rows[0];
-        console.log(data.rows);
-    const myQuizzes = data.rows;
-    console.log(myQuizzes, 'myQuizzes');
-    res.render("completed-quizzes", {myQuizzes, person});
-  })
-  .catch((err) => {
-    res.status(500).json({ error: err.message });
-  });
-  })
-  });
 
   // Most Recent
   router.get("/myQuizzes/:id", (req, res) => {
     const userId = req.params.id;
 
-    let query = `SELECT quizzes.name as quiz, quizzes.id as quiz_id date_created as Created, users.name as Creator
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quiz_id, date_created as Created, users.name as Creator
                 FROM quizzes
                 JOIN users ON owner_id = users.id
                 WHERE quizzes.owner_id = ${userId}
