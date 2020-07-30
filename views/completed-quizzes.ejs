@@ -35,7 +35,7 @@
         <div id="avatar-div"><span id="avatar" class="iconify" data-icon="bi:person-bounding-box" data-inline="false"></span></div>
         <div><span class="profile-name"> Welcome <%= person %></span> </div>
         <div class="my_quizzes_btn">
-          <div><a href="/users/myQuizzes/1"><button type="button" button
+          <div><a href="/users/myQuizzes/<%= idForUser %>"><button type="button" button
                 class="btn btn-danger btn-rounded">My Quizzes</button></a></div>
           <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
         </div>
@@ -45,28 +45,32 @@
           <span class="quiz-top"><h3>The Quizzes you completed</h3></span>
         </div>
         <span>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Quiz</th>
-                <th scope="col">Created On</th>
-                <th scope="col">Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% for(let quiz in myQuizzes) { %>
-              <tr>
-                <td> <%= myQuizzes[quiz].quiz%></td>
-                <td> <%= myQuizzes[quiz].date.toDateString() %></td>
-                <td> <%= myQuizzes[quiz].score %></td>
-                <td>
-                  <form action="/" method="GET">
-                    <button type="button" class="btn btn-primary">Play Quiz</button></form>
-                </td>
+          <% if (myQuizzes) { %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Quiz</th>
+                  <th scope="col">Created On</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(let quiz in myQuizzes) { %>
+                <tr>
+                  <td> <%= myQuizzes[quiz].quiz%></td>
+                  <td> <%= myQuizzes[quiz].date.toDateString() %></td>
+                  <td> <%= myQuizzes[quiz].score %></td>
+                  <td>
+                    <form action="/" method="GET">
+                      <button type="button" class="btn btn-primary">Play Quiz</button></form>
+                  </td>
+                </tr>
                 <% } %>
-              </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+            <% } else { %>
+          <h2>You have not completed any quiz</h2>
+        <% } %>
         </span>
       </div>
     </div>

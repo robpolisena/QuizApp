@@ -36,6 +36,9 @@ module.exports = (db) => {
   .then((data) => {
      return data.rows[0].username;
   })
+  .catch((err) => {
+  console.log(err, 'first userName error');
+  })
   }
 
 
@@ -77,7 +80,7 @@ module.exports = (db) => {
 
   const findUserByEmail = (email) => {
     //console.log(`email from find userbyemai: ${email}`)
-let values = [email]
+    let values = [email]
     let query = `SELECT * FROM users WHERE email = $1;`;
     return db.query(query, values).then((data) => {
       //console.log(data.rows[0].email);
@@ -115,27 +118,25 @@ let values = [email]
 
         // main page
         router.get("/quizzes", (req, res) => {
-          if (req.session['user_id']) {
-            let templateVars = { user: [req.session['user_id']]};
-
+        if (req.session['user_id']) {
+        console.log('I am here now');
+        let userId = req.session['user_id'];
+         userName(userId)
+        .then(person => {
         let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
         FROM quizzes
         JOIN users ON owner_id = users.id
         JOIN categories ON category_id = categories.id`;
         db.query(query)
         .then((data) => {
-          //const templateVars = { urls: userURLs, user: users[req.session['user_id']]};
-          //const userLogin = data.rows[]; <%= userLogin %>
-          const userId = data.rows[0].userid;
-          const userLogin = data.rows[0].user;
-          //console.log(data.rows);
           const quizzes = data.rows;
-          //console.log(quizzes, 'data with users and names');
-          res.render("index", { quizzes, userLogin, userId, templateVars });
+          res.render("index", { quizzes, person, userId });
         })
         .catch((err) => {
-          res.status(500).json({ error: err.message });
+        console.log('ERROW=====>', err);
+         res.status(500).json({ error: err.message });
         });
+      })
       } else {
         res.redirect("/login");
       }
@@ -143,7 +144,9 @@ let values = [email]
 
      // Completed Quizzes
      router.get("/myCompletedQuizzes", (req, res) => {
-      const idForUser = req.session['user_id'].user_id;
+
+      const idForUser = req.session['user_id']
+      console.log(idForUser);
       userName(idForUser)
      .then(person => {
       let query = `SELECT quizzes.name as quiz, completed_quizzes.completed_date as date, completed_quizzes.score as score
@@ -153,11 +156,13 @@ let values = [email]
       ORDER BY date DESC`;
       db.query(query)
       .then((data) => {
-        //const userLogin = data.rows[0];
-        console.log(data.rows);
+        console.log(`data rows: ${JSON.stringify(data.rows)}`)
+        if(data.rows.length > 0) {
     const myQuizzes = data.rows;
-    console.log(myQuizzes, 'myQuizzes');
-    res.render("completed-quizzes", {myQuizzes, person});
+    res.render("completed-quizzes", {myQuizzes, person, idForUser});
+      } else {
+        res.render("completed-quizzes", {myQuizzes: [], person, idForUser});
+      }
     })
     .catch((err) => {
     res.status(500).json({ error: err.message });
@@ -175,8 +180,10 @@ let values = [email]
 
   // Most Recent
   router.get("/myQuizzes/:id", (req, res) => {
-    const userId = req.params.id;
-
+    //const userId = req.params.id;
+    const userId = req.session['user_id'];
+       userName(userId)
+      .then(person => {
     let query = `SELECT quizzes.name as quiz, quizzes.id as quiz_id, date_created as Created, users.name as Creator
                 FROM quizzes
                 JOIN users ON owner_id = users.id
@@ -184,20 +191,25 @@ let values = [email]
                 ORDER BY created DESC`;
     db.query(query)
       .then((data) => {
-        // const userLogin = data.rows[0].user;
-        const userLogin = data.rows[0].creator;
+        if(data.rows.length > 0) {
+          console.log(data.rows.length, 'noquizzes created')
         const myQuizzes = data.rows;
-        console.log("MY QUIZZES", data.rows);
-        res.render("my_quizzes", { myQuizzes, userLogin, userId });
+        const person = data.rows[0].creator
+          res.render("my_quizzes", { myQuizzes, person, userId });
+        } else {
+          res.render("my_quizzes", { myQuizzes: [], person, userId });
+        }
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
-      });
+      })
+     })
   });
+
 
   // Most Recent
   router.get("/quizzes/recent", (req, res) => {
-    const userId = req.session['user_id'].user_id;
+    const userId = req.session['user_id'];
     userName(userId)
    .then(person => {
     let query = `SELECT quizzes.name as quiz, date_created as Created
@@ -217,7 +229,7 @@ let values = [email]
   // POPULAR
 
   router.get("/quizzes/popular", (req, res) => {
-     const userid = req.session['user_id'].user_id;
+     const userid = req.session['user_id'];
      userName(userid)
     .then(person => {
     let query = `SELECT quizzes.name as quiz, count(completed_quizzes.*) as attempts, quizzes.owner_id as userId
@@ -246,7 +258,7 @@ let values = [email]
 
   router.get("/quizzes/animals", (req, res) => {
    // console.log(req.session['user_id'].user_id, 'req.session USER id')
-   const userid = req.session['user_id'].user_id;
+   const userid = req.session['user_id'];
    userName(userid)
     .then(person => {
         let query = `SELECT quizzes.name as quiz, categories.name as category
@@ -270,7 +282,7 @@ let values = [email]
   // SPORTS CATEGORY id 1
 
   router.get("/quizzes/sports", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
@@ -293,7 +305,7 @@ let values = [email]
   // CELEBRITIES CATEGORY id 4
 
   router.get("/quizzes/celebrities", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
@@ -316,7 +328,7 @@ let values = [email]
   // ENTARTAINMENT CATEGORY id 5
 
   router.get("/quizzes/entartainment", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
@@ -341,7 +353,7 @@ let values = [email]
 
   router.get("/quizzes/animals", (req, res) => {
    // console.log(req.session['user_id'].user_id, 'req.session USER id')
-   const userid = req.session['user_id'].user_id;
+   const userid = req.session['user_id'];
    userName(userid)
     .then(person => {
         let query = `SELECT quizzes.name as quiz, categories.name as category
@@ -365,7 +377,7 @@ let values = [email]
   // SPORTS CATEGORY id 1
 
   router.get("/quizzes/sports", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
@@ -388,7 +400,7 @@ let values = [email]
   // CELEBRITIES CATEGORY id 4
 
   router.get("/quizzes/celebrities", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
@@ -411,7 +423,7 @@ let values = [email]
   // ENTARTAINMENT CATEGORY id 5
 
   router.get("/quizzes/entartainment", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
@@ -433,7 +445,7 @@ let values = [email]
   // VEHICLES CATEGORY id 3
 
   router.get("/quizzes/vehicles", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
