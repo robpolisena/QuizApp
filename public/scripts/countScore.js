@@ -1,11 +1,6 @@
-// Get the info of the quiz and answer from the database
-// Make the display of the options random
-
-// submitting the quiz and calculating the score.
-// Have an eventlisterer connected to a variable score that increments once the button clicks matches the correct answer
+// Counting the quizzes Score
 
 $(document).ready(function () {
-  // --- our code goes here ---
   let count = 0;
 
   let counts = {
@@ -27,15 +22,17 @@ $(document).ready(function () {
   });
 
   $(".submit_quiz").submit(function (event) {
-    //event.preventDefault();
     const count = Object.values(counts).filter(
       (eachCount) => eachCount === true
     ).length;
     $("#score").val(count);
   });
+  // Adding the share Button;
+  $("#email-share").attr(
+    "href",
+    `mailto:?subject=${encodeURI(
+      window.location
+    )}Super%20fast%20and%20easy%20Social%20Media%20Sharing%20Buttons.%20No%20JavaScript.%20No%20tracking.&amp;body=` +
+      encodeURI(window.location)
+  );
 });
-
-//send answer to the backend via POST
-// make new ejs file
-// submit score to the database
-// remove event.preventDefault
