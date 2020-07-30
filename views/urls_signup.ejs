@@ -26,47 +26,41 @@
   <body>
     <div class="main-container">
       <div class="left-container">
-        <video class="video" controls>
-          <source src="/path" type="video/mp4" />
-        </video>
+
       </div>
       <div class="right-container">
         <h1>QuizApp</h1>
         <h3>
           Connecting people one quiz at a time
         </h3>
-        <form>
+        <form action="/users/register" method="POST">
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="inputEmail4">First Name</label>
-              <input type="email" class="form-control" id="inputEmail4" />
+              <label for="inputFirst">Fullname Name</label>
+              <input required="required" name="name" type="text" placeholder="Name" class="form-control" id="firstName" />
             </div>
-            <div class="form-group col-md-6">
-              <label for="inputPassword4">Last Name</label>
-              <input type="password" class="form-control" id="inputPassword4" />
-            </div>
-          </div>
+
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="inputEmail4">Email</label>
-              <input type="email" class="form-control" id="inputEmail4" />
+              <label for="email">Email</label>
+              <input required="required" type="email" name="email" placeholder="Email" class="form-control" id="inputEmail" />
             </div>
             <div class="form-group col-md-6">
               <label for="inputPassword4">Password</label>
-              <input type="password" class="form-control" id="inputPassword4" />
+              <input required="required" type="password" name="password" placeholder="enter your password" class="form-control" id="inputPassword4" />
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">SIGN UP</button>
+          <button type="submit" class="btn btn-primary">Register</button>
         </form>
+        <p class="signup">Already have an account?<a href="/users/login"> Login in here!</a></p>
+
+
+
       </div>
     </div>
     <div class="change-color">
       <footer class="footer">
-        <h6>
-          By signing up, you agree to our <a href="#">Terms of Use</a> and
-          <a href="#">Privacy Policy</a>
-        </h6>
-        <h7>(c) 2020 LHL Bootcamp</h7>
+
       </footer>
     </div>
   </body>

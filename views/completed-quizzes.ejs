@@ -42,23 +42,23 @@
       </div>
       <div class="col-9" class='main-container'>
         <div class="list-top">
-          <span class="quiz-top"><h3>Enjoy our Quizzes</h3></span>
+          <span class="quiz-top"><h3>The Quizzes you completed</h3></span>
         </div>
         <span>
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">Quiz</th>
-                <th scope="col">Category</th>
-                <th scope="col">Creator</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Score</th>
               </tr>
             </thead>
             <tbody>
-              <% for(let quiz in animalsCategory) { %>
+              <% for(let quiz in myQuizzes) { %>
               <tr>
-                <td> <%= animalsCategory[quiz].quiz%></td>
-                <td> <%= animalsCategory[quiz].category%></td>
-                <td> <%= animalsCategory[quiz].creator%></td>
+                <td> <%= myQuizzes[quiz].quiz%></td>
+                <td> <%= myQuizzes[quiz].date.toDateString() %></td>
+                <td> <%= myQuizzes[quiz].score %></td>
                 <td>
                   <form action="/" method="GET">
                     <button type="button" class="btn btn-primary">Play Quiz</button></form>

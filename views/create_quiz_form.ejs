@@ -85,16 +85,15 @@
           <!-- Form to create a quiz  -->
           <form action="/quizzes/new" method="POST">
             <!-- <div class="quiz-container"> -->
-            <h2>Create a quiz</h2>
-            <div class="form">
-              <div class="quiz-name">
-                <label> Please enter the name of the quiz</label>
-                <input type="text" name="quiz_name" placeholder="Quiz name" />
-              </div>
+            <div class="question-text">
+              <label> Please enter the name of the quiz </label>
+              <input type="text" class='form-control form-control-lg
+              'name="quiz_name" placeholder="Quiz name" required />
             </div>
+
             <!-- Dropdown categories  -->
             <div class="form-group">
-              <label for=""> Select a category</label>
+              <label for=""> </span> Select a category</label>
               <select
                 class="form-control"
                 name="quiz_category"
@@ -110,7 +109,7 @@
             <!--   -------- Questions + options ----- -->
             <!-- question 1 text -->
             <div class="question-text">
-              <label> 1. Enter your Question 1 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-1" data-inline="false"></span>  and possible options:</label>
               <input
                 name="question1"
                 type="text"
@@ -118,10 +117,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 1"
+                required
               />
             </div>
             <!-- question 1 options -->
-            <div class="options_question1" name="question">
+            <div class="options_question" name="question">
               <div class="col">
                 <input
                   type="text"
@@ -155,7 +155,7 @@
 
             <!-- question 2 text -->
             <div class="question-text">
-              <label> 2. Enter your Question 2 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-2" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id="question1-input"
@@ -163,10 +163,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 2"
+                required
               />
             </div>
             <!-- question 2 options -->
-            <div class="options_question1" name="question">
+            <div class="options_question" name="question">
               <div class="col">
                 <input
                   type="text"
@@ -199,7 +200,7 @@
             </div>
             <!-- question 3 text -->
             <div class="question-text">
-              <label> 3. Enter your Question 3 and possible options:</label>
+              <label> Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-3" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id=""
@@ -207,10 +208,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 3"
+                required
               />
             </div>
             <!-- question 3 options -->
-            <div class="options_question1" name="question">
+            <div class="options_question" name="question">
               <div class="col">
                 <input
                   type="text"
@@ -244,7 +246,7 @@
 
             <!-- question 4 text -->
             <div class="question-text">
-              <label> 4. Enter your Question 4 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-4" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id=""
@@ -252,10 +254,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 4"
+                required
               />
             </div>
             <!-- question 4 options -->
-            <div class="options_question1" name="">
+            <div class="options_question" name="">
               <div class="col">
                 <input
                   type="text"
@@ -289,7 +292,7 @@
 
             <!-- question 5 text -->
             <div class="question-text">
-              <label> 5. Enter your Question 5 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-5" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id=""
@@ -297,10 +300,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 5"
+                required
               />
             </div>
             <!-- question 5 options -->
-            <div class="options_question1">
+            <div class="options_question">
               <div class="col">
                 <input
                   type="text"
@@ -331,13 +335,36 @@
                 <span> Correct answer </span>
               </div>
             </div>
-            <button type="submit" class="btn btn-info btn-rounded">
-              Submit Quiz
+            <div class='submit_btns'>
+            <button id='submit_quiz_public' type="submit" class="btn btn-info btn-rounded">
+              Submit a public quiz
             </button>
-            <!-- </div> -->
+            <button id='submit_quiz_private' type="submit" class="btn btn-info btn-rounded">
+              Submit a private quiz
+            </button>
+            </div>
           </form>
-        </div>
+        </span>
       </div>
     </div>
-  </body>
+    <!-- </div>
+  </section> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+</body>
+
 </html>
+
+
+
+
+
+
+
