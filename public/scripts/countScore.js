@@ -1,7 +1,6 @@
 // Counting the quizzes Score
 
 $(document).ready(function () {
-  let count = 0;
 
   let counts = {
     question1: false,
@@ -25,14 +24,8 @@ $(document).ready(function () {
     const count = Object.values(counts).filter(
       (eachCount) => eachCount === true
     ).length;
+    console.log('THIS IS THE COUNT', count);
     $("#score").val(count);
   });
-  // Adding the share Button;
-  $("#email-share").attr(
-    "href",
-    `mailto:?subject=${encodeURI(
-      window.location
-    )}Super%20fast%20and%20easy%20Social%20Media%20Sharing%20Buttons.%20No%20JavaScript.%20No%20tracking.&amp;body=` +
-      encodeURI(window.location)
-  );
+
 });

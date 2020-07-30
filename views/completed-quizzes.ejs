@@ -36,8 +36,8 @@
         <div><span class="profile-name"> Welcome <%= person %></span> </div>
         <div class="my_quizzes_btn">
           <div><a href="/users/myQuizzes/<%= idForUser %>"><button type="button" button
-                class="btn btn-danger btn-rounded">My Quizzes</button></a></div>
-          <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
+                class="btn btn-danger btn-rounded">My Created Quizzes</button></a></div>
+          <div><button type="button" class="btn btn-info btn-rounded">My Completed Quizzes</button></div>
         </div>
       </div>
       <div class="col-9" class='main-container'>
@@ -62,7 +62,7 @@
                   <td> <%= myQuizzes[quiz].score %></td>
                   <td>
                     <form action="/" method="GET">
-                      <button type="button" class="btn btn-primary">Play Quiz</button></form>
+                      <a href="/users/quizzes/<%= myQuizzes[quiz].quizid%>"> <button type="button" class="btn btn-primary">Play Quiz</button></a></form>
                   </td>
                 </tr>
                 <% } %>

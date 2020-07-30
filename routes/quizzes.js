@@ -35,7 +35,7 @@ module.exports = (db) => {
   }
 
   router.get("/new", (req, res) => {
-    const userId = req.session['user_id'];
+    const userId = req.session['user_id'].user_id;
     userName(userId)
     .then(person => {
     let query = `SELECT quizzes.name as quiz, users.name as user, users.id as userId
@@ -83,10 +83,32 @@ module.exports = (db) => {
       question5_answer,
     } = req.body;
 
+
+
     // [userId, quizNane, categoryId, public/private, completed, score]
-    const idForUser = req.session['user_id'];
-    console.log('THIS IS THE ID FOR THE USER', idForUser)
-    const quizValues = [idForUser, quiz_name, 1, true, true, 10];
+    const idForUser = req.session['user_id'].user_id;
+    const cat_id = req.body.quiz_category
+
+    const getCategoryId = function (cat_id){
+      //let categoryId;
+      if (cat_id === 'Sports') {
+        return 1
+      } else if (cat_id === 'Animals') {
+        return 2
+      } else if (cat_id === 'Vehicles') {
+        return 3
+      } else if (cat_id === 'Celebrities') {
+        return 4
+      } else if(cat_id === 'Entertainment') {
+        return 5
+      }
+    }
+
+
+    console.log(getCategoryId(cat_id), 'categoryId from getCategoryId function')
+  // quiz
+    const quizValues = [idForUser, quiz_name, getCategoryId(cat_id), true, true, 10];
+
 
     // questions
     const questionValues = [
@@ -297,11 +319,44 @@ module.exports = (db) => {
   });
 
   router.post("/result", (req, res) => {
-    //console.log("THIS IS WHERE YOU ARE", req.body);
-    const score = req.body.score;
+    console.log("THIS IS WHERE YOU ARE", req.body);
+    const userId = req.session.user_id.user_id;
+    console.log('userid in the results section', userId);
+    userName(userId)
+    .then(person => {
+    //get the user_id
     const quizId = req.body.quiz_id;
-    res.render("results-box", { score });
+    // const userId = req.session['user_id'];
+    const score = req.body.score;
+    const queryValues = [quizId, userId, score]
+    console.log(queryValues, 'these are the query values');
+    const query = `INSERT INTO completed_quizzes (quiz_id, player_id, score, completed_date, points_gotten) VALUES ($1, $2, $3, now()::date, 0) RETURNING id;`;
+    db.query(query, queryValues)
+      .then((data) => {
+        res.redirect(`/quizzes/result/${data.rows[0].id}`);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
   });
+  });
+
+  router.get('/result/:id', (req, res) => {
+    const userId = req.session.user_id.user_id;
+    const queryValues = [req.params.id];
+    const query = `SELECT * FROM completed_quizzes WHERE id = $1`;
+    db.query(query, queryValues)
+      .then((data) => {
+        userName(userId)
+    .then(person => {
+      res.render("results-box", { score: data.rows[0].score, userId, person });
+    })
+      })
+
+    // Pull out the query for the completed quiz (score and person)
+    // then res.render the result box showing the score and person
+
+  })
 
   router.post("/private", (req, res) => {
     console.log('req.body===>', req.body)
