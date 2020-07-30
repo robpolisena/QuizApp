@@ -1,93 +1,62 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>QuizApp</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    <!-- Bootstrap link  -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    <!-- FontAwesome Link  -->
-    <link
-      rel="stylesheet"
-      href="path/to/font-awesome/css/font-awesome.min.css"
-    />
-    <!-- Google fonts  -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Iconify Link  -->
-    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-    <!-- JQuery  -->
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <title>QuizApp</title>
-    <!-- Stylesheeets  -->
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link
-      rel="stylesheet"
-      href="/QuizApp/styles/layout.scss"
-      type="text/scss"
-    />
-    <link
-      rel="stylesheet"
-      href="/QuizApp/styles/header.scss"
-      type="text/scss"
-    />
-    <!-- Javascript  -->
-    <script type="text/javascript" src="/scripts/app.js"></script>
-  </head>
-  <body>
-    <!-- Navbar  -->
-    <%- include('partials/_header') %>
-    <div>
-      <div class="row">
-        <!-- Profile section  -->
-        <div class="col-3">
-          <div>
-            <span
-              class="quiz-profile iconify"
-              data-icon="carbon:user-avatar-filled"
-              data-inline="false"
-            ></span
-            ><span class="profile-name"> Welcome <%= userLogin %></span>
-          </div>
-          <div class="my_quizzes_btn">
-            <div>
-              <a href="/users/myQuizzes/<%= userId %>"><button type="button" button
-                class="btn btn-danger btn-rounded">My Quizzes</button></a>
-            </div>
-            <div>
-              <button type="button" class="btn btn-info btn-rounded">
-                Completed Quizzes
-              </button>
-            </div>
-          </div>
+<html lang="en">
+
+<head>
+  <!-- Bootstrap link  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <!-- FontAwesome Link  -->
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <!-- Google fonts  -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Iconify Link  -->
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <!-- JQuery  -->
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <title>QuizApp</title>
+  <!-- Stylesheeets  -->
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
+  <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
+  <!-- Javascript  -->
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+
+<body>
+  <!-- Navbar  -->
+  <%- include('partials/_header') %>
+
+
+  <div class="big-container">
+    <div class="row">
+      <div class="col-3 profile">
+        <!-- <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span -->
+        <div id="avatar-div"><span id="avatar" class="iconify" data-icon="bi:person-bounding-box" data-inline="false"></span></div>
+        <div><span class="profile-name"> Welcome <%= userLogin %></span> </div>
+        <div class="my_quizzes_btn">
+          <div><a href="/users/myQuizzes/<%= userId %>"><button type="button" button
+                class="btn btn-danger btn-rounded">My Quizzes</button></a></div>
+          <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
         </div>
-        <div class="col-9 main-container">
-          <!-- Form to create a quiz  -->
-          <form action="/quizzes" method="POST">
+      </div>
+      <div class="col-9" class='main-container'>
+
+        <span>
+          <h2>Create a quiz <span class="iconify" data-icon="bi:patch-question" data-inline="false"></span></h2>
+          <form class="create-quiz" action="/quizzes" method="POST">
             <!-- <div class="quiz-container"> -->
-            <h2>Create a quiz</h2>
-            <div class="form">
-              <div class="quiz-name">
-                <label> Please enter the name of the quiz</label>
-                <input type="text" name="quiz_name" placeholder="Quiz name" />
-              </div>
+            <div class="question-text">
+              <label> Please enter the name of the quiz </label>
+              <input type="text" class='form-control form-control-lg
+              'name="quiz_name" placeholder="Quiz name" required />
             </div>
+
             <!-- Dropdown categories  -->
             <div class="form-group">
-              <label for=""> Select a category</label>
+              <label for=""> </span> Select a category</label>
               <select
                 class="form-control"
                 name="quiz_category"
@@ -103,7 +72,7 @@
             <!--   -------- Questions + options ----- -->
             <!-- question 1 text -->
             <div class="question-text">
-              <label> 1. Enter your Question 1 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-1" data-inline="false"></span>  and possible options:</label>
               <input
                 name="question1"
                 type="text"
@@ -111,10 +80,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 1"
+                required
               />
             </div>
             <!-- question 1 options -->
-            <div class="options_question1" name="question">
+            <div class="options_question" name="question">
               <div class="col">
                 <input
                   type="text"
@@ -148,7 +118,7 @@
 
             <!-- question 2 text -->
             <div class="question-text">
-              <label> 2. Enter your Question 2 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-2" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id="question1-input"
@@ -156,10 +126,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 2"
+                required
               />
             </div>
             <!-- question 2 options -->
-            <div class="options_question1" name="question">
+            <div class="options_question" name="question">
               <div class="col">
                 <input
                   type="text"
@@ -192,7 +163,7 @@
             </div>
             <!-- question 3 text -->
             <div class="question-text">
-              <label> 3. Enter your Question 3 and possible options:</label>
+              <label> Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-3" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id=""
@@ -200,10 +171,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 3"
+                required
               />
             </div>
             <!-- question 3 options -->
-            <div class="options_question1" name="question">
+            <div class="options_question" name="question">
               <div class="col">
                 <input
                   type="text"
@@ -237,7 +209,7 @@
 
             <!-- question 4 text -->
             <div class="question-text">
-              <label> 4. Enter your Question 4 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-4" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id=""
@@ -245,10 +217,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 4"
+                required
               />
             </div>
             <!-- question 4 options -->
-            <div class="options_question1" name="">
+            <div class="options_question" name="">
               <div class="col">
                 <input
                   type="text"
@@ -282,7 +255,7 @@
 
             <!-- question 5 text -->
             <div class="question-text">
-              <label> 5. Enter your Question 5 and possible options:</label>
+              <label>  Enter your Question <span class="iconify" data-icon="emojione-v1:keycap-5" data-inline="false"></span> and possible options:</label>
               <input
                 type="text"
                 id=""
@@ -290,10 +263,11 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Question 5"
+                required
               />
             </div>
             <!-- question 5 options -->
-            <div class="options_question1">
+            <div class="options_question">
               <div class="col">
                 <input
                   type="text"
@@ -324,13 +298,36 @@
                 <span> Correct answer </span>
               </div>
             </div>
-            <button type="submit" class="btn btn-info btn-rounded">
-              Submit Quiz
+            <div class='submit_btns'>
+            <button id='submit_quiz_public' type="submit" class="btn btn-info btn-rounded">
+              Submit a public quiz
             </button>
-            <!-- </div> -->
+            <button id='submit_quiz_private' type="submit" class="btn btn-info btn-rounded">
+              Submit a private quiz
+            </button>
+            </div>
           </form>
-        </div>
+        </span>
       </div>
     </div>
-  </body>
+    <!-- </div>
+  </section> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+</body>
+
 </html>
+
+
+
+
+
+
+

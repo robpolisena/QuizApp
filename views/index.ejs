@@ -7,6 +7,9 @@
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <!-- FontAwesome Link  -->
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <!-- Google fonts  -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
   <!-- Iconify Link  -->
   <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   <!-- JQuery  -->
@@ -27,20 +30,20 @@
   <%- include('partials/_header') %>
 
 
-  <div class="container">
+  <div class="big-container">
     <div class="row">
       <div class="col-3 profile">
-        <div><span class=" quiz-profile iconify" data-icon="carbon:user-avatar-filled" data-inline="false"></span><span
-            class="profile-name"> Welcome <%= userLogin %></span></div>
+        <div id="avatar-div"><span id="avatar" class="iconify" data-icon="bi:person-bounding-box" data-inline="false"></span></div>
+        <div><span class="profile-name"> Welcome <%= userLogin %></span> </div>
         <div class="my_quizzes_btn">
-          <div><a href="/users/myQuizzes/<%= userId %>"><button type="button" button
+           <div><a href="/users/myQuizzes/<%= userId %>"><button type="button" button
                 class="btn btn-danger btn-rounded">My Quizzes</button></a></div>
-          <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
+          <div><a href="/users/myCompletedQuizzes"><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></a></div>
         </div>
       </div>
       <div class="col-9" class='main-container'>
         <div class="list-top">
-          <span class="quiz-top"><strong>Enjoy our Quizzes</strong></span>
+          <span class="quiz-top"><h3>Enjoy our Quizzes</h3></span>
           <span class="quiz-right"> Sort by <a href="/users/quizzes/popular" button type="button"
               class="btn btn-warning">Most
               Popular</button></a>
