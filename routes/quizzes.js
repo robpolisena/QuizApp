@@ -368,13 +368,29 @@ module.exports = (db) => {
     const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
     db.query(query, queryValues)
       .then((data) => {
-
+        res.status(204).send()
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
 
   });
+
+  router.post("/public", (req, res) => {
+    console.log('req.body===>', req.body)
+    const quiz_id = req.body.quiz_id;
+    const queryValues = [true, quiz_id]
+    const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
+    db.query(query, queryValues)
+      .then((data) => {
+        res.status(204).send()
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+
+  });
+
 
   return router;
 };

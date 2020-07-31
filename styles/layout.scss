@@ -1,4 +1,4 @@
-//Sharing button start
+//Sharing button start // **********************************************************CSS**********************************************************
 .resp-sharing-button__link,
 .resp-sharing-button__icon {
   display: inline-block;
@@ -182,209 +182,7 @@
   border-color: #3a80c1;
 }
 
-// sharing buttton end
 
-// See: https://sass-lang.com/
-// // See: https://sass-lang.com/
-
-// body {
-//   background-color: #edf6f9;
-// }
-// h1 {
-//   color: #244751;
-// }
-
-// .container {
-//   display: flex;
-//   max-width: 100%;
-//   margin-top: 5px;
-// }
-
-// .row {
-//   display: flex;
-//   flex-direction: column;
-//   width: 100%;
-// }
-
-// // Profile section
-// .col-3 {
-//   border: 1px solid red;
-//   max-width: 100%;
-//   height: 50px;
-//   margin-left: 0;
-//   margin-right: 0;
-//   display: flex;
-//   justify-content: center;
-// }
-// // Buttons under profile picture
-// .my_quizzes_btn {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-// .col-9 {
-//   max-width: 100%;
-//   height: 400px;
-//   margin-left: 0;
-//   margin-right: 0;
-//   display: flex;
-// }
-// // css for question options in Create Quiz Form
-
-// .options_question1 {
-//   margin-top: 5%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-// }
-
-// @media only screen and (min-width: 768px) {
-//   .profile-name {
-//     display: flex;
-//     justify-content: center;
-//   }
-
-//   .container {
-//     padding: 0;
-//   }
-
-//   .row {
-//     display: flex;
-//     flex-direction: row;
-//     margin-top: 5px;
-//     margin-left: 5px;
-//     margin-right: 5px;
-//   }
-//   .col-3 {
-//     border: 1px solid black;
-//     height: 700px;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     padding: 0;
-//   }
-
-//   .col-9 {
-//     border: 1px solid black;
-//     display: flex;
-//     flex-direction: column;
-//     height: 700px;
-//     padding: 0;
-//   }
-
-//   .quiz-profile {
-//     height: 80px;
-//     width: 100%;
-//     background-color: #fec89a;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//   }
-
-//   .list-top {
-//     height: 80px;
-//     width: 100%;
-//     background-color: #a8dadc;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//   }
-
-//   .quiz-top {
-//     margin-left: 200px;
-//     font-weight: 300px;
-//   }
-
-//   .quiz-right {
-//     margin-right: 10px;
-//   }
-
-//   // NAVBAR CSS
-//   .navbar {
-//     // color: #457b9d;
-//     width: 100%;
-//     padding-left: 5%;
-//     padding-right: 5%;
-//   }
-
-//   // Question container CSS
-//   article {
-//     -webkit-border-radius: 23px;
-//     -moz-border-radius: 23px;
-//     border-radius: 23px;
-//     -webkit-box-shadow: 0px 0px 16px #000000;
-//     -moz-box-shadow: 0px 0px 16px #000000;
-//     box-shadow: 0px 0px 16px #000000;
-//     background-image: -moz-linear-gradient(top, #fff5ee 45%, #e0ffff 98%);
-//     background-image: -webkit-gradient(
-//       linear,
-//       left top,
-//       left bottom,
-//       color-stop(0.45, #fff5ee),
-//       color-stop(0.98, #e0ffff)
-//     );
-//     border: 0px solid #000000;
-//     background-color: #fff8dc;
-//     padding: 10px;
-//     z-index: 10;
-//     color: #888888;
-//     text-align: center;
-//   }
-
-//   .options {
-//     display: flex;
-//     justify-content: space-between;
-//     padding: 8px 40px;
-//     list-style-type: none;
-//   }
-
-//   .option-container {
-//     border: 2px solid #888888;
-//     margin: 10%;
-//     padding: 8px;
-//     width: 250px;
-//     border-radius: 10px;
-//   }
-//   .option-container:hover {
-//     box-shadow: 0px 0px 16px #000000;
-//   }
-
-//   input[type="radio"] {
-//     transform: scale(2);
-//     margin: 10%;
-//     cursor: default;
-//   }
-//   // button submit quiz
-//   #submit_quiz {
-//     padding: 3px 22px;
-//     padding: 22px 35px;
-//     border-radius: 10px;
-//     font-size: 16px;
-//     font-weight: 900;
-//     min-width: 140px;
-//   }
-
-//   // Results box CSS
-//   article {
-//     -webkit-border-radius: 17px;
-//     -moz-border-radius: 17px;
-//     border-radius: 17px;
-//     -webkit-box-shadow: 0px 0px 10px #000000;
-//     -moz-box-shadow: 0px 0px 10px #000000;
-//     box-shadow: 0px 0px 10px #000000;
-//     background-color: #fff5ee;
-//     padding: 33px;
-//     z-index: -1;
-//     font-family: Verdana, Geneva, sans-serif;
-//     font-size: 13pt;
-//     color: #888888;
-//     text-align: center;
-//   }
-// }
-
-// // ​
-
-// // ​
 
 // **********************************************************CSS**********************************************************
 
@@ -394,9 +192,10 @@ body {
 }
 
 .big-container {
-  margin-top: 5%;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin: 0em;
+  //margin-top: 5%;
+  //margin-left: 5%;
+  //margin-right: 5%;
 }
 .row {
   display: flex;
@@ -435,7 +234,6 @@ body {
 }
 
 .col-9 {
-  // border: 1px solid black;
   -webkit-border-radius: 17px;
   -moz-border-radius: 17px;
   border-radius: 17px;
@@ -600,20 +398,7 @@ input[type="radio"] {
 }
 
 // LOGIN REGISTER PAGE
-​ .main-container_login {
-  border: 5px solid #1c6ea4;
-  // border-radius: 40px;
-  // background-color: #244751;
-  // border: 2px solid black;
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
-  // align-items: center;
-  // margin: 2.5em;
-  // margin-bottom: 0em;
-  // padding: 5em;
-  // width: auto;
-}
+​
 // // ​
 // .left-container_login {
 //   border: 2px solid red;
@@ -639,3 +424,235 @@ input[type="radio"] {
 //   place-items: center;
 //   justify-content: center;
 // }
+
+/* Tablet Styles and desktop */
+@media only screen and (min-width: 768px) {
+
+  .big-container {
+    margin-top: 2%;
+    margin-left: 3%;
+    margin-right: 2%;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+}
+
+.big-container {
+  margin: 0em;
+  //margin-top: 5%;
+  //margin-left: 5%;
+  //margin-right: 5%;
+}
+.row {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.col-3 {
+  width: 194px;
+  height: 630px;
+  right: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  white-space: break-spaces;
+
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
+  border-radius: 17px;
+  -webkit-box-shadow: 0px 0px 8px #696969;
+  -moz-box-shadow: 0px 0px 8px #696969;
+  box-shadow: 0px 0px 8px #696969;
+  background-image: -moz-linear-gradient(top, #ffffff 56%, #e0ffff 98%);
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.56, #ffffff),
+    color-stop(0.98, #e0ffff)
+  );
+  background-color: #dddddd;
+  padding: 10px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 12pt;
+  color: #888888;
+  text-align: center;
+}
+
+.col-9 {
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
+  border-radius: 17px;
+  -webkit-box-shadow: 0px 0px 8px #696969;
+  -moz-box-shadow: 0px 0px 8px #696969;
+  box-shadow: 0px 0px 8px #696969;
+  background-image: -moz-linear-gradient(top, #ffffff 45%, #e0ffff 98%);
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.45, #ffffff),
+    color-stop(0.98, #e0ffff)
+  );
+  background-color: #dddddd;
+  padding: 10px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 12pt;
+  color: #888888;
+  text-align: center;
+}
+
+.list-top {
+  text-align-last: center;
+  display: flex;
+  flex-direction: column;
+}
+.quiz-top {
+  margin: 3%;
+}
+
+.table {
+  margin-top: 5%;
+}
+
+table tbody tr:hover {
+  box-shadow: inset 0px 0px 3px #83c5be;
+}
+#avatar {
+  width: 100%;
+  height: 200px;
+}
+
+// NAVBAR CSS
+.navbar {
+  // color: #457b9d;
+  margin-top: 1%;
+  width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
+  font-weight: 700;
+}
+
+// CREATE QUIZ FORM
+.create-quiz {
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+  font-size: larger;
+}
+
+form label {
+  color: black;
+  margin-top: 2%;
+  margin-bottom: 3%;
+}
+
+div span h2 {
+  margin-top: 3%;
+}
+
+.options_question {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-line;
+}
+
+.results-box {
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
+  border-radius: 17px;
+  -webkit-box-shadow: 0px 0px 10px #000000;
+  -moz-box-shadow: 0px 0px 10px #000000;
+  box-shadow: 0px 0px 10px #000000;
+  background-color: #fff5ee;
+  padding: 33px;
+  z-index: -1;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 13pt;
+  color: #888888;
+  text-align: center;
+}
+
+.submit_btns {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+// Playing  A QUIZ
+
+// Question container CSS
+article {
+  -webkit-border-radius: 23px;
+  -moz-border-radius: 23px;
+  border-radius: 23px;
+  -webkit-box-shadow: 0px 0px 16px #000000;
+  -moz-box-shadow: 0px 0px 16px #000000;
+  box-shadow: 0px 0px 16px #000000;
+  background-image: -moz-linear-gradient(top, #ffffff 45%, #e0ffff 98%);
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.45, #ffffff),
+    color-stop(0.98, #e0ffff)
+  );
+  border: 0px solid #000000;
+  background-color: #fff8dc;
+  padding: 10px;
+  z-index: 10;
+  color: #888888;
+  text-align: center;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 40px;
+  list-style-type: none;
+}
+
+.option-container {
+  border: 2px solid #888888;
+  margin: 10%;
+  padding: 8px;
+  width: 250px;
+  border-radius: 10px;
+}
+.option-container:hover {
+  box-shadow: 0px 0px 16px #000000;
+}
+
+input[type="radio"] {
+  transform: scale(2);
+  margin: 10%;
+  cursor: default;
+}
+// button submit quiz
+#submit_quiz {
+  padding: 3px 22px;
+  padding: 22px 35px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 900;
+  min-width: 140px;
+}
+
+#quizNameHeader {
+  color: black;
+}
+
+
+
+
+// ***************************CSS REGISTER LOGIN PAGE
+.main-container_register  {
+  border: 2px solid black;
+  background-color: red;
+}
+
+
+
+}
