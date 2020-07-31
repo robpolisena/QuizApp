@@ -97,7 +97,7 @@ module.exports = (db) => {
 
         // Root api/users
         router.get("/", (req, res) => {
-          console.log(req.session);
+          // console.log(req.session);
           if (!req.session['user_id']) {
             res.redirect("/users/register");
           } else {
@@ -107,7 +107,7 @@ module.exports = (db) => {
 
         // Login page
         router.get("/login", (req, res) => {
-          // let templateVars = { user: users[req.session['user_id']]};
+          //let templateVars = { user: [req.session['user_id'].user_id]};
           res.render("urls_login");
         });
 
@@ -121,10 +121,10 @@ module.exports = (db) => {
 
         router.get("/quizzes", (req, res) => {
         if (req.session['user_id']) {
-        console.log('I am here now');
-        console.log(req.session['user_id'], 'THIS IS USER ID when on main page')
-          const userId = req.session['user_id'].user_id;
-         userName(userId)
+        // console.log('I am here now');
+        // console.log(req.session['user_id'].user_id, 'THIS IS USER ID when on main page')
+        const userId = req.session['user_id'];
+        userName(userId)
         .then(person => {
         let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
         FROM quizzes
@@ -133,6 +133,7 @@ module.exports = (db) => {
         db.query(query)
         .then((data) => {
           const quizzes = data.rows;
+          // console.log(quizzes, 'data in the /quizzes')
           res.render("index", { quizzes, person, userId });
         })
         .catch((err) => {
@@ -148,11 +149,11 @@ module.exports = (db) => {
      // Completed Quizzes
      router.get("/myCompletedQuizzes", (req, res) => {
 
-      const idForUser = req.session['user_id'].user_id
-      console.log(idForUser);
+       const idForUser = req.session['user_id'];
+      // console.log(idForUser);
       userName(idForUser)
      .then(person => {
-      const query = `SELECT quizzes.name AS quiz, score, completed_date AS date
+      const query = `SELECT quizzes.name AS quiz, quizzes.id as quizid, score, completed_date AS date
       FROM completed_quizzes
       JOIN quizzes ON completed_quizzes.quiz_id = quizzes.id
       WHERE player_id = $1
@@ -160,8 +161,8 @@ module.exports = (db) => {
       const queryValue = [idForUser]
       db.query(query, queryValue)
       .then((data) => {
-        console.log(`data rows: ${JSON.stringify(data.rows)}`)
-        console.log(data.rows, 'this is what it looks like after');
+        // console.log(`data rows: ${JSON.stringify(data.rows)}`)
+        // console.log(data.rows, 'this is what it looks like after');
         if(data.rows.length > 0) {
     const myQuizzes = data.rows;
     console.log('HWLOOOOOOOOOOOO', myQuizzes)
@@ -187,7 +188,7 @@ module.exports = (db) => {
   // Most Recent
   router.get("/myQuizzes/:id", (req, res) => {
     //const userId = req.params.id;
-    const userId = req.session['user_id'].user_id;
+    const userId = req.session['user_id'];
        userName(userId)
       .then(person => {
     let query = `SELECT quizzes.name as quiz, quizzes.id as quiz_id, date_created as Created, users.name as Creator
@@ -198,8 +199,8 @@ module.exports = (db) => {
     db.query(query)
       .then((data) => {
         if(data.rows.length > 0) {
-          console.log(data.rows.length, 'noquizzes created')
-        const myQuizzes = data.rows;
+          // console.log(data.rows.length, 'noquizzes created')
+          const myQuizzes = data.rows;
         const person = data.rows[0].creator
           res.render("my_quizzes", { myQuizzes, person, userId });
         } else {
@@ -219,7 +220,7 @@ module.exports = (db) => {
     userName(userId)
    .then(person => {
     let query = `SELECT quizzes.name as quiz, date_created as Created
-                  FROM quizzes
+                  FROM quizzes WHERE isPublic = true
                   ORDER BY created DESC`;
     db.query(query)
       .then((data) => {
@@ -240,7 +241,7 @@ module.exports = (db) => {
     .then(person => {
     let query = `SELECT quizzes.name as quiz, count(completed_quizzes.*) as attempts, quizzes.owner_id as userId
                   FROM quizzes
-                  JOIN completed_quizzes ON quizzes.id = completed_quizzes.quiz_id
+                  JOIN completed_quizzes ON quizzes.id = completed_quizzes.quiz_id WHERE isPublic = true
                   GROUP BY quizzes.name, quizzes.owner_id
                   ORDER BY attempts DESC`;
     db.query(query)
@@ -262,8 +263,8 @@ module.exports = (db) => {
   // ANIMALS CATEGORY id 2
 
   router.get("/quizzes/animals", (req, res) => {
-   // console.log(req.session['user_id'].user_id, 'req.session USER id')
-   const userid = req.session['user_id'].user_id;
+   // console.log(req.session['user_id'], 'req.session USER id')
+   const userid = req.session['user_id'];
    userName(userid)
     .then(person => {
         let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, users.name as creator, categories.name as category
@@ -286,7 +287,7 @@ module.exports = (db) => {
   // SPORTS CATEGORY id 1
 
   router.get("/quizzes/sports", (req, res) => {
-    const userid = req.session['user_id'].user_id;
+    const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
     let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, categories.name as category, users.name as creator
@@ -296,7 +297,7 @@ module.exports = (db) => {
     WHERE category_id = 1 AND isPublic=true`;
     db.query(query)
       .then((data) => {
-        console.log(data.rows, "data for sports category");
+        // console.log(data.rows, "data for sports category");
         const sportsCategory = data.rows;
         res.render("sports", { sportsCategory, person });
       })
@@ -312,7 +313,7 @@ module.exports = (db) => {
     const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
-    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, categories.name as category, users.name as creator
     FROM quizzes
     JOIN users ON owner_id = users.id
     JOIN categories ON category_id = categories.id
@@ -334,7 +335,7 @@ module.exports = (db) => {
     const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
-    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, categories.name as category, users.name as creator
       FROM quizzes
       JOIN users ON owner_id = users.id
       JOIN categories ON category_id = categories.id
@@ -449,7 +450,7 @@ module.exports = (db) => {
     const userid = req.session['user_id'];
     userName(userid)
      .then(person => {
-    let query = `SELECT quizzes.name as quiz, categories.name as category, users.name as creator
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, categories.name as category, users.name as creator
       FROM quizzes
       JOIN users ON owner_id = users.id
       JOIN categories ON category_id = categories.id
@@ -469,7 +470,7 @@ module.exports = (db) => {
 // Attempting a specific quiz
 router.get("/quizzes/:id", (req, res) => {
   const quizId = req.params.id;
-  const userId = req.session['user_id'].user_id;
+  const userId = req.session['user_id'];
     userName(userId)
      .then(person => {
 let query = `SELECT  * FROM (SELECT quizzes.name AS name, quizzes.id AS quiz_id, questions.question AS question, options.option AS Options, FALSE as answer
@@ -514,9 +515,9 @@ const authenticateUser = (email, password) => {
   return findUserByEmail(email)
   .then((user)=>{
    // console.log(`user: ${JSON.stringify(user)} email: ${email} password: ${password}`)
-   console.log('before bcrypt');
+  //  console.log('before bcrypt');
     if (user && bcrypt.compareSync(password, user.password)) {
-      console.log('after bcrypt');
+      // console.log('after bcrypt');
       return user;
     } else {
       return false;
@@ -557,11 +558,15 @@ router.post("/register", async (req, res) => {
   };
 
   insertUser(userValues)
-  .then((user_id) => {
-    // console.log(bcrypt.compareSync(req.body.password, users[userId].password));
-    req.session['user_id'] = user_id;
-    res.redirect("/users/quizzes");
-  })
+    .then((result) => {
+      // console.log(bcrypt.compareSync(req.body.password, users[userId].password));
+      req.session['user_id'] = result.user_id;
+
+      console.log('after session cookie set: ', req.session['user_id']);
+      res.redirect("/users/quizzes");
+    }).catch(e => {
+      console.log('error occured while creating user', e);
+    });
 
 });
 
@@ -587,10 +592,11 @@ router.post("/login", (req, res) => {
 
 //logout the user
 router.post("/logout", (req, res) => {
-  console.log('Logout happens');
+  // console.log('Logout happens');
   //clear the cookies on logout
   req.session = null;
   res.redirect("/users/login");
 });
 return router;
 }
+//

@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
   <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
   <!-- Javascript  -->
+  <script type="text/javascript" src="/scripts/quizzes.js"></script>
 
 </head>
 
@@ -52,15 +53,17 @@
             </thead>
             <tbody>
               <% for(let quiz in myQuizzes) { %>
-              <tr>
-                <td> <%= myQuizzes[quiz].quiz%></td>
-                <td> <%= myQuizzes[quiz].created.toDateString() %></td>
-                <td>
-                  <form action="/quizzes/private" method="POST" >
-                    <button type="button" class="btn btn-primary">Make Private</button></form>
-                    <% } %>
-                </td>
-              </tr>
+                <form class='private-form' action="/quizzes/private" method="POST" >
+                  <tr>
+                    <td> <input name='quizName' value= "<%= myQuizzes[quiz].quiz%>"></td>
+                    <td class='quiz_id hidden' type="hidden"> <%= myQuizzes[quiz].quiz_id%></td>
+                    <td> <%= myQuizzes[quiz].created.toDateString() %> </td>
+                    <td>
+                      <button type="submit" class="btn btn-primary">Make Private</button>
+                    </td>
+                  </tr>
+                </form>
+                <% } %>
             </tbody>
           </table>
         </span>

@@ -56,6 +56,8 @@
                 <th scope="col">Quiz</th>
                 <th scope="col">Category</th>
                 <th scope="col">Creator</th>
+                <th scope="col"> </th>
+                <th scope="col">Share the Quiz <span class="iconify" data-icon="fxemoji:email" data-inline="false"></span></th>
               </tr>
             </thead>
             <tbody>
@@ -67,8 +69,16 @@
                 <td>
                   <a href="/users/quizzes/<%= quizzes[quiz].quizid%>"> <button type="button" class="btn btn-primary">Play Quiz</button></a>
                 </td>
+                <td>
+                  <!-- Email -->
+    <a href="mailto:?Subject=Try out this awesome quiz&amp;Body=Hi%20there,%20try%20out%20this%20awesome%20quiz!%20 http://localhost:8080/users/quizzes/<%= quizzes[quiz].quizid%>">
+      <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+  </a>
+                </td>
                 <% } %>
               </tr>
+
+
             </tbody>
           </table>
         </span>

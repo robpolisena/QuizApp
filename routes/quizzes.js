@@ -35,10 +35,13 @@ module.exports = (db) => {
   }
 
   router.get("/new", (req, res) => {
-    const userId = req.session['user_id'].user_id;
+    const userId = req.session['user_id'];
+
+    // sanity check to make sure userId has a value
+
     userName(userId)
     .then(person => {
-    let query = `SELECT quizzes.name as quiz, users.name as user, users.id as userId
+    let query = `SELECT quizzes.name as quiz, quizzes.id AS quizId, users.name as user, users.id as userId
                     FROM quizzes
                     JOIN users ON owner_id = users.id;`;
       db.query(query).then((data) => {
@@ -86,7 +89,7 @@ module.exports = (db) => {
 
 
     // [userId, quizNane, categoryId, public/private, completed, score]
-    const idForUser = req.session['user_id'].user_id;
+    const idForUser = req.session['user_id'];
     const cat_id = req.body.quiz_category
 
     const getCategoryId = function (cat_id){
@@ -320,7 +323,7 @@ module.exports = (db) => {
 
   router.post("/result", (req, res) => {
     console.log("THIS IS WHERE YOU ARE", req.body);
-    const userId = req.session.user_id.user_id;
+    const userId = req.session['user_id'];
     console.log('userid in the results section', userId);
     userName(userId)
     .then(person => {
@@ -342,7 +345,7 @@ module.exports = (db) => {
   });
 
   router.get('/result/:id', (req, res) => {
-    const userId = req.session.user_id.user_id;
+    const userId = req.session['user_id'];
     const queryValues = [req.params.id];
     const query = `SELECT * FROM completed_quizzes WHERE id = $1`;
     db.query(query, queryValues)
@@ -360,8 +363,7 @@ module.exports = (db) => {
 
   router.post("/private", (req, res) => {
     console.log('req.body===>', req.body)
-    console.log('req.params===>', req.params)
-    const quiz_id = req.params.id;
+    const quiz_id = req.body.quiz_id;
     const queryValues = [false, quiz_id]
     const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
     db.query(query, queryValues)
@@ -371,6 +373,7 @@ module.exports = (db) => {
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
+
   });
 
   return router;

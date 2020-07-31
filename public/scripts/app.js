@@ -15,5 +15,13 @@ $(document).ready(function () {
     `https://twitter.com/intent/tweet/?text=Hey%20there,%20i%20just%20completed%20this%20quiz:%20with%20the%20score%20${score}/5&url=${window.location.href}`
   );
 
+  $("#reddit-share").attr(
+    "href",
+    `https://reddit.com/submit/?Hey%20there,%20i%20just%20completed%20this%20quiz:%20with%20the%20score%20.${score}/5&url=${window.location.href}`
+  );
 
-});
+
+})
+
+
+
