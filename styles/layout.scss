@@ -192,14 +192,15 @@ body {
 }
 
 .big-container {
-  margin: 0em;
-  //margin-top: 5%;
-  //margin-left: 5%;
-  //margin-right: 5%;
+  //margin: 0em;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 .row {
   display: flex;
   flex-direction: row;
+ // width: 100%;
 }
 
 .col-3 {
@@ -397,33 +398,34 @@ input[type="radio"] {
   color: black;
 }
 
-// LOGIN REGISTER PAGE
-​
-// // ​
-// .left-container_login {
-//   border: 2px solid red;
-//   // margin: 0 0.5rem 0 15.5rem;
-//   width: 25rem;
-//   height: 25rem;
 
-// }
-// // // ​
-// .video {
-//   width: 25rem;
-//   height: 25em;
-// }
-// // // ​
-// .right-container_login {
-//   border: 4px solid green;
-//   display: flex;
-//   flex-direction: column;
-//   align-content: flex-end;
-//   // margin: 0 15.5rem 0 0.5rem;
-//   width: 31.25rem;
-//   height: 31.25rem;
-//   place-items: center;
-//   justify-content: center;
-// }
+// ***************************CSS REGISTER LOGIN PAGE
+#container_login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+}
+#container_register{
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align-last: center;
+margin-top: 10%;
+}
+.loginbody {
+background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,212,227,0.7665441176470589) 0%, rgba(0,212,255,1) 100%);
+}
+.signup{
+margin-top: 2%;
+}
+.button_login_page {
+margin-left:160px;
+}
+
+// **********************************************************CSS**********************************************************Ends
+
 
 /* Tablet Styles and desktop */
 @media only screen and (min-width: 768px) {
@@ -439,14 +441,14 @@ body {
 }
 
 .big-container {
-  margin: 0em;
-  //margin-top: 5%;
-  //margin-left: 5%;
-  //margin-right: 5%;
+  //margin: 0em;
+  margin-top: 2%;
+  margin-left: 3.5%;
+  margin-right: 2%;
 }
 .row {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: row;
 }
 
 .col-3 {
@@ -644,15 +646,30 @@ input[type="radio"] {
   color: black;
 }
 
-
-
-
 // ***************************CSS REGISTER LOGIN PAGE
-.main-container_register  {
-  border: 2px solid black;
-  background-color: red;
+#container_login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
 }
+#container_register{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align-last: center;
+  margin-top: 10%;
 
-
+}
+.loginbody {
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,212,227,0.7665441176470589) 0%, rgba(0,212,255,1) 100%);
+}
+.signup{
+  margin-top: 2%;
+}
+.button_login_page {
+  margin-left:160px;
+}
 
 }

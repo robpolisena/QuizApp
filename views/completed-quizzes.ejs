@@ -52,6 +52,8 @@
                   <th scope="col">Quiz</th>
                   <th scope="col">Completed On</th>
                   <th scope="col">Score</th>
+                  <th scope="col"></th>
+                  <th scope="col">Share the Quiz</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,6 +66,9 @@
                     <form action="/" method="GET">
                       <a href="/users/quizzes/<%= myQuizzes[quiz].quizid%>"> <button type="button" class="btn btn-primary">Play Quiz</button></a></form>
                   </td>
+                  <td><a href="mailto:?Subject=Try out this awesome quiz&amp;Body=Hi%20there,%20try%20out%20this%20awesome%20quiz!%20 http://localhost:8080/users/quizzes/<%= myQuizzes[quiz].quizid%>">
+                    <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+                </a></td>
                 </tr>
                 <% } %>
               </tbody>

@@ -219,7 +219,7 @@ module.exports = (db) => {
     const userId = req.session['user_id'];
     userName(userId)
    .then(person => {
-    let query = `SELECT quizzes.name as quiz, date_created as Created
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, date_created as Created
                   FROM quizzes WHERE isPublic = true
                   ORDER BY created DESC`;
     db.query(query)
@@ -239,10 +239,10 @@ module.exports = (db) => {
      const userid = req.session['user_id'];
      userName(userid)
     .then(person => {
-    let query = `SELECT quizzes.name as quiz, count(completed_quizzes.*) as attempts, quizzes.owner_id as userId
+    let query = `SELECT quizzes.name as quiz, quizzes.id as quizid, count(completed_quizzes.*) as attempts, quizzes.owner_id as userId
                   FROM quizzes
                   JOIN completed_quizzes ON quizzes.id = completed_quizzes.quiz_id WHERE isPublic = true
-                  GROUP BY quizzes.name, quizzes.owner_id
+                  GROUP BY quizzes.name, quizzes.owner_id, quizzes.id
                   ORDER BY attempts DESC`;
     db.query(query)
       .then((data) => {

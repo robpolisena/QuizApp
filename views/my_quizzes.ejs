@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
   <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
   <!-- Javascript  -->
-  <script type="text/javascript" src="/scripts/quizzes.js"></script>
+  <script type="text/javascript" src="/scripts/public_private.js"></script>
 
 </head>
 
@@ -49,6 +49,9 @@
               <tr>
                 <th scope="col">Quiz</th>
                 <th scope="col">Created On</th>
+                <th scope="col">Quiz Private</th>
+                <th scope="col">Quiz Visible</th>
+                <th scope="col">Share the Quiz</th>
               </tr>
             </thead>
             <tbody>
@@ -62,11 +65,16 @@
                       <input name="quiz_id" class='quiz_id hidden'value="<%=myQuizzes[quiz].quiz_id%>" type="hidden">
                       <button type="submit" class="btn btn-primary">Make Private</button>
                     </form>
+                  </td>
+                  <td>
                     <form class='public-form' action="/quizzes/public" method="POST" >
                       <input name="quiz_id" class='quiz_id hidden'value="<%=myQuizzes[quiz].quiz_id%>" type="hidden">
                       <button type="submit" class="btn btn-primary">Make Public</button>
                     </form>
                     </td>
+                    <td><a href="mailto:?Subject=Try out this awesome quiz&amp;Body=Hi%20there,%20try%20out%20this%20awesome%20quiz!%20 http://localhost:8080/users/quizzes/<%= myQuizzes[quiz].quiz_id%>">
+                      <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+                  </a></td>
                   </tr>
                 <% } %>
             </tbody>

@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>QuizApp | SignUp</title>
-    <!-- Meta Information -->
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-    />
     <!-- Bootstrap link  -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    <!-- App CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- FontAwesome Link  -->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <!-- Google fonts  -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Iconify Link  -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <!-- JQuery  -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <title>QuizApp</title>
+    <!-- Stylesheeets  -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link
-      rel="stylesheet"
-      href="/QuizApp/styles/layout.scss"
-      type="text/scss"
-    />
+    <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
+    <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
+    <!-- Javascript  -->
+    <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
-  <body>
-    <div class="main-container_register">
-      <div class="right-container">
-        <h1>QuizApp</h1>
-        <h3>
-          Connecting people one quiz at a time
-        </h3>
+  <body class="loginbody">
+    <div id="container_register">
+      <h1> <span class="iconify" data-icon="uil:cloud-question"
+        data-inline="false"> </span>QuizApp  </h1>
+      <h3>
+        Connecting people one quiz at a time
+      </h3>
         <form action="/users/register" method="POST">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="inputFirst">Fullname Name</label>
-              <input required="required" name="name" type="text" placeholder="Name" class="form-control" id="firstName" />
+            <div class="form-group col-md-12">
+              <label for="inputFirst">Full Name</label>
+              <input required="required" name="name" type="text" placeholder="enter name here" class="form-control" id="firstName" />
             </div>
-
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="email">Email</label>
@@ -44,13 +41,12 @@
             </div>
             <div class="form-group col-md-6">
               <label for="inputPassword4">Password</label>
-              <input required="required" type="password" name="password" placeholder="enter your password" class="form-control" id="inputPassword4" />
+              <input required="required" type="password" name="password" placeholder="Enter password" class="form-control" id="inputPassword4" />
             </div>
           </div>
           <button type="submit" class="btn btn-primary">Register</button>
         </form>
-        <p class="signup">Already have an account?<a href="/users/login"> Login in here!</a></p>
+        <div class='signup'><p class="signup">Already have an account?<a href="/users/login"> Login in here!</a></p></div>
       </div>
-    </div>
   </body>
 </html>

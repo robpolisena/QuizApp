@@ -62,7 +62,7 @@
                 <td> <%= popularQuizzes[quiz].attempts%></td>
                 <td>
                   <form action="/" method="GET">
-                    <button type="button" class="btn btn-primary">Play Quiz</button></form>
+                    <a href="/users/quizzes/<%= popularQuizzes[quiz].quizid%>"> <button type="button" class="btn btn-primary">Play Quiz</button></a></form>
                 </td>
                 <% } %>
               </tr>
