@@ -22,11 +22,18 @@ router.use(cookieSession({
   keys: ['key1', 'key2']
 }));
 
-//app.use(cookieParser());
 app.set("view engine", "ejs");
 
 
 module.exports = (db) => {
+
+  // prevent XSS client-side in JavaScript
+const htmlEncode = function(str) {
+  //function htmlEncode(str) {
+    return String(str).replace(/[^\w. ]/gi, function(c) {
+      return '&#' + c.charCodeAt(0) + ';';
+    });
+  };
 
   //retrieve username
   const userName = async (userid) => {
@@ -42,51 +49,25 @@ module.exports = (db) => {
   })
   }
 
-
-
-  // const users = {
-  //   "userRandomID": {
-  //     id: "userRandomID",
-  //     email: "user@example.com",
-  //     password: bcrypt.hashSync("purple-monkey-dinosaur", saltRounds),
-  //   },
-  //   "user2RandomID": {
-  //     id: "user2RandomID",
-  //     email: "user2@example.com",
-  //     password: bcrypt.hashSync("dishwasher-funk", saltRounds),
-  //   }
-  // };
-
+  // query to see if email already exists in table when a user registers
   const findEmail = async (email) => {
-    //console.log(`email from find userbyemai: ${email}`)
     let values = [email]
     let query = `SELECT email FROM users WHERE email = $1;`;
 
     return await db.query(query, values).then((data) => {
-      //console.log(data, 'email data')
       return data.rows[0];
-      //console.log(data.rows);
-      // //const userId = data.rows[0].userid;
-      // if (email === data.row[0].email ) {
-      //   return true;
-      //   //console.log('false, email doesnt exist')
-      // }
-      //   return false
-      //   console.log('true, email  exists in db')
+
 
       });
   };
 
 
-
+  // query to
   const findUserByEmail = (email) => {
-    //console.log(`email from find userbyemai: ${email}`)
     let values = [email]
     let query = `SELECT * FROM users WHERE email = $1;`;
     return db.query(query, values).then((data) => {
-      //console.log(data.rows[0].email);
 
-      //console.log(`users from get user: ${JSON.stringify(data.rows)}`);
       return data.rows[0];
     })
     .catch(err=> console.log(`err at finduser: ${err}`))
@@ -97,7 +78,6 @@ module.exports = (db) => {
 
         // Root api/users
         router.get("/", (req, res) => {
-          // console.log(req.session);
           if (!req.session['user_id']) {
             res.redirect("/users/register");
           } else {
@@ -107,7 +87,6 @@ module.exports = (db) => {
 
         // Login page
         router.get("/login", (req, res) => {
-          //let templateVars = { user: [req.session['user_id'].user_id]};
           res.render("urls_login");
         });
 
@@ -117,12 +96,10 @@ module.exports = (db) => {
           res.render("urls_signup", templateVars);
         });
 
-        // main page
 
+        // main page
         router.get("/quizzes", (req, res) => {
         if (req.session['user_id']) {
-        // console.log('I am here now');
-        // console.log(req.session['user_id'].user_id, 'THIS IS USER ID when on main page')
         const userId = req.session['user_id'];
         userName(userId)
         .then(person => {
@@ -133,7 +110,6 @@ module.exports = (db) => {
         db.query(query)
         .then((data) => {
           const quizzes = data.rows;
-          // console.log(quizzes, 'data in the /quizzes')
           res.render("index", { quizzes, person, userId });
         })
         .catch((err) => {
@@ -146,11 +122,9 @@ module.exports = (db) => {
       }
     });
 
-     // Completed Quizzes
      router.get("/myCompletedQuizzes", (req, res) => {
 
        const idForUser = req.session['user_id'];
-      // console.log(idForUser);
       userName(idForUser)
      .then(person => {
       const query = `SELECT quizzes.name AS quiz, quizzes.id as quizid, score, completed_date AS date
@@ -161,11 +135,8 @@ module.exports = (db) => {
       const queryValue = [idForUser]
       db.query(query, queryValue)
       .then((data) => {
-        // console.log(`data rows: ${JSON.stringify(data.rows)}`)
-        // console.log(data.rows, 'this is what it looks like after');
         if(data.rows.length > 0) {
     const myQuizzes = data.rows;
-    console.log('HWLOOOOOOOOOOOO', myQuizzes)
     res.render("completed-quizzes", {myQuizzes, person, idForUser});
       } else {
         res.render("completed-quizzes", {myQuizzes: [], person, idForUser});
@@ -177,17 +148,8 @@ module.exports = (db) => {
     })
     });
 
-  // Root api/users
-  // router.get("/", (req, res) => {
-  //   let query = `SELECT quizzes.name as quiz, quizzes.id as quizId, users.name as user, users.id as userId, categories.name as category
-  //                   FROM quizzes
-  //                   JOIN users ON owner_id = users.id
-  //                   JOIN categories ON category_id = categories.id`;
-  //   db.query(query)
-
   // Most Recent
   router.get("/myQuizzes/:id", (req, res) => {
-    //const userId = req.params.id;
     const userId = req.session['user_id'];
        userName(userId)
       .then(person => {
@@ -199,7 +161,6 @@ module.exports = (db) => {
     db.query(query)
       .then((data) => {
         if(data.rows.length > 0) {
-          // console.log(data.rows.length, 'noquizzes created')
           const myQuizzes = data.rows;
         const person = data.rows[0].creator
           res.render("my_quizzes", { myQuizzes, person, userId });
@@ -234,7 +195,6 @@ module.exports = (db) => {
 });
 
   // POPULAR
-
   router.get("/quizzes/popular", (req, res) => {
      const userid = req.session['user_id'];
      userName(userid)
@@ -246,11 +206,7 @@ module.exports = (db) => {
                   ORDER BY attempts DESC`;
     db.query(query)
       .then((data) => {
-        //const templateVars = { urls: userURLs, user: users[req.session['user_id']]};
-        //const userLogin = data.rows[]; <%= userLogin %>
-        //console.log(data.rows[0]);
         const userId = data.rows[0].userid;
-        // const userLogin = data.rows[0].user;
         const popularQuizzes = data.rows;
         res.render("popular", { popularQuizzes, person, userId });
       })
@@ -261,9 +217,7 @@ module.exports = (db) => {
 });
 
   // ANIMALS CATEGORY id 2
-
   router.get("/quizzes/animals", (req, res) => {
-   // console.log(req.session['user_id'], 'req.session USER id')
    const userid = req.session['user_id'];
    userName(userid)
     .then(person => {
@@ -274,7 +228,6 @@ module.exports = (db) => {
         WHERE category_id = 2 AND isPublic=true`;
       db.query(query)
         .then((data) => {
-          console.log(data.rows[0]);
           const animalsCategory = data.rows;
           res.render("animals", { animalsCategory, person});
         })
@@ -285,7 +238,6 @@ module.exports = (db) => {
   });
 
   // SPORTS CATEGORY id 1
-
   router.get("/quizzes/sports", (req, res) => {
     const userid = req.session['user_id'];
     userName(userid)
@@ -297,7 +249,6 @@ module.exports = (db) => {
     WHERE category_id = 1 AND isPublic=true`;
     db.query(query)
       .then((data) => {
-        // console.log(data.rows, "data for sports category");
         const sportsCategory = data.rows;
         res.render("sports", { sportsCategory, person });
       })
@@ -308,7 +259,6 @@ module.exports = (db) => {
   });
 
   // CELEBRITIES CATEGORY id 4
-
   router.get("/quizzes/celebrities", (req, res) => {
     const userid = req.session['user_id'];
     userName(userid)
@@ -330,7 +280,6 @@ module.exports = (db) => {
   });
 
   // ENTARTAINMENT CATEGORY id 5
-
   router.get("/quizzes/entartainment", (req, res) => {
     const userid = req.session['user_id'];
     userName(userid)
@@ -350,8 +299,6 @@ module.exports = (db) => {
       });
     });
   });
-
-
 
 
   router.get("/quizzes/vehicles", (req, res) => {
@@ -402,10 +349,8 @@ let query = `SELECT  * FROM (SELECT quizzes.name AS name, quizzes.id AS quiz_id,
    .then((data) => {
      let templateVars = {
        quizName: data.rows[0].name, questionName1: data.rows[0].question, q1o1: data.rows[0].options, q1o2: data.rows[1].options, q1o3: data.rows[2].options, q1a1: data.rows[3].options, questionName2: data.rows[4].question, q2o1: data.rows[4].options, q2o2: data.rows[5].options, q2o3: data.rows[6].options, q2a2: data.rows[7].options, questionName3: data.rows[8].question, q3o1: data.rows[8].options, q3o2: data.rows[9].options, q3o3: data.rows[10].options, q3a3: data.rows[11].options, questionName4: data.rows[12].question, q4o1: data.rows[12].options, q4o2: data.rows[13].options, q4o3: data.rows[14].options, q4a4: data.rows[15].options, questionName5: data.rows[16].question, q5o1: data.rows[16].options, q5o2: data.rows[17].options, q5o3: data.rows[18].options, q5a5: data.rows[19].options }
-// console.log(templateVars,'templateVars')       // console.log(templateVars5,'templateVars5')
 
      res.render("play_quiz", { templateVars , person, userId, quizId});
-    //  res.render("play_quiz", { templateVars }, { templateVars2 }, { templateVars3 }, { templateVars4 }, { templateVars5 });
   })
   .catch((err) => {
     res.status(500).json({ error: err.message });
@@ -414,18 +359,10 @@ let query = `SELECT  * FROM (SELECT quizzes.name AS name, quizzes.id AS quiz_id,
 });
 
 
-// valid if a user with this email exists
 const authenticateUser = (email, password) => {
-  // const user = findUserByEmail(email);
-  // check the email match
-
-
   return findUserByEmail(email)
   .then((user)=>{
-   // console.log(`user: ${JSON.stringify(user)} email: ${email} password: ${password}`)
-  //  console.log('before bcrypt');
     if (user && bcrypt.compareSync(password, user.password)) {
-      // console.log('after bcrypt');
       return user;
     } else {
       return false;
@@ -454,12 +391,9 @@ router.post("/register", async (req, res) => {
 
   const insertUser = function (userValues) {
     const usersQuerry = `INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id AS user_id;`;
-    //return pool
     return db
       .query(usersQuerry, userValues)
       .then((userRes) => {
-        //console.log("Quiz ID Created", quizRes.rows, quizRes.rows[0].quiz_id);
-       //console.log(`userRessaved: ${JSON.stringify(userRes)}`)
         return userRes.rows[0];
       })
       .catch((err) => console.error("query error", err.stack));
@@ -467,10 +401,8 @@ router.post("/register", async (req, res) => {
 
   insertUser(userValues)
     .then((result) => {
-      // console.log(bcrypt.compareSync(req.body.password, users[userId].password));
       req.session['user_id'] = result.user_id;
 
-      console.log('after session cookie set: ', req.session['user_id']);
       res.redirect("/users/quizzes");
     }).catch(e => {
       console.log('error occured while creating user', e);
@@ -482,11 +414,8 @@ router.post("/register", async (req, res) => {
 router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  // Authentication the user
-  // const user = authenticateUser(email, password);
   authenticateUser(email, password)
   .then(user=>{
-    //console.log(`user from authenticate user: ${JSON.stringify(user)}`)
     if (user) {
       req.session['user_id'] = user.id;
       res.redirect("/users/quizzes");
@@ -500,11 +429,9 @@ router.post("/login", (req, res) => {
 
 //logout the user
 router.post("/logout", (req, res) => {
-  // console.log('Logout happens');
-  //clear the cookies on logout
   req.session = null;
   res.redirect("/users/login");
 });
 return router;
 }
-//
+

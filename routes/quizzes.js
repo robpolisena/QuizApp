@@ -16,7 +16,6 @@ router.use(cookieSession({
 }));
 
 
-//app.use(cookieParser());
 app.set("view engine", "ejs");
 
 module.exports = (db) => {
@@ -38,7 +37,6 @@ module.exports = (db) => {
     const userId = req.session['user_id'];
 
     // sanity check to make sure userId has a value
-
     userName(userId)
     .then(person => {
     let query = `SELECT quizzes.name as quiz, quizzes.id AS quizId, users.name as user, users.id as userId
@@ -54,8 +52,6 @@ module.exports = (db) => {
 });
 
   router.post("/new", (req, res) => {
-    // const quiz_category = [1, 2, 3, 4, 5];
-    // const [ Sports, Animals, Vehicle, Celebrities, Entertaiment ] = quiz_category;
     const {
       quiz_name,
       quiz_category,
@@ -88,12 +84,10 @@ module.exports = (db) => {
 
 
 
-    // [userId, quizNane, categoryId, public/private, completed, score]
     const idForUser = req.session['user_id'];
     const cat_id = req.body.quiz_category
 
     const getCategoryId = function (cat_id){
-      //let categoryId;
       if (cat_id === 'Sports') {
         return 1
       } else if (cat_id === 'Animals') {
@@ -107,9 +101,6 @@ module.exports = (db) => {
       }
     }
 
-
-    console.log(getCategoryId(cat_id), 'categoryId from getCategoryId function')
-  // quiz
     const quizValues = [idForUser, quiz_name, getCategoryId(cat_id), true, true, 10];
 
 
@@ -122,7 +113,7 @@ module.exports = (db) => {
       question5,
     ];
 
-    // answers
+    // answers/options
     const optionValues = [
       question1_option1,
       question1_option2,
@@ -148,7 +139,6 @@ module.exports = (db) => {
 
     const insertQuiz = function (quizValues) {
       const quizQuerry = `INSERT INTO quizzes (owner_id, name, category_id, isPublic, isReady, date_created, points_allocated) VALUES ($1, $2, $3, $4, $5, now()::date, $6) RETURNING id AS quiz_id;`;
-      //return pool
       return db
         .query(quizQuerry, quizValues)
         .then((quizRes) => {
@@ -158,7 +148,6 @@ module.exports = (db) => {
     };
 
     const insertQuestions = function (questionValues) {
-      console.log(`question values: ${questionValues}`);
       const questionQuerry = `INSERT INTO questions (question) VALUES ($1), ($2), ($3), ($4), ($5) RETURNING id as question_id;`;
       return db
         .query(questionQuerry, questionValues)
@@ -173,7 +162,6 @@ module.exports = (db) => {
       return db
         .query(quizQuestionQuerry, [quizId, questionId])
         .then((quizQuestionRes) => {
-          // console.log("quizQuestionRes", quizQuestionRes.rows[0]);
           return quizQuestionRes.rows;
         })
         .catch((err) => console.error("query error", err.stack));
@@ -309,8 +297,6 @@ module.exports = (db) => {
           createQuestionOptions(questionsIds, optionsIds)
         );
 
-        // console.log(JSON.stringify(questionOptions));
-
         // Inserting answers in the question_answer table
         insertAllQuestionAnswers(questionOptions);
 
@@ -322,17 +308,13 @@ module.exports = (db) => {
   });
 
   router.post("/result", (req, res) => {
-    console.log("THIS IS WHERE YOU ARE", req.body);
     const userId = req.session['user_id'];
-    console.log('userid in the results section', userId);
     userName(userId)
     .then(person => {
     //get the user_id
     const quizId = req.body.quiz_id;
-    // const userId = req.session['user_id'];
     const score = req.body.score;
     const queryValues = [quizId, userId, score]
-    console.log(queryValues, 'these are the query values');
     const query = `INSERT INTO completed_quizzes (quiz_id, player_id, score, completed_date, points_gotten) VALUES ($1, $2, $3, now()::date, 0) RETURNING id;`;
     db.query(query, queryValues)
       .then((data) => {
@@ -356,13 +338,9 @@ module.exports = (db) => {
     })
       })
 
-    // Pull out the query for the completed quiz (score and person)
-    // then res.render the result box showing the score and person
-
   })
 
   router.post("/private", (req, res) => {
-    console.log('req.body===>', req.body)
     const quiz_id = req.body.quiz_id;
     const queryValues = [false, quiz_id]
     const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
@@ -377,7 +355,6 @@ module.exports = (db) => {
   });
 
   router.post("/public", (req, res) => {
-    console.log('req.body===>', req.body)
     const quiz_id = req.body.quiz_id;
     const queryValues = [true, quiz_id]
     const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;

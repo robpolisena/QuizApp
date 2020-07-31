@@ -2,7 +2,6 @@
 
 $(document).ready(function () {
   const score = $("#email-share").data("score");
-  //const score = $("#email-share").data("score");
   $("#email-share").attr(
     "href",
     `mailto:?subject=Quiz%20App.&body=Hey%20there,%20i%20just%20completed%20this%20quiz:%20${encodeURI(
@@ -23,5 +22,14 @@ $(document).ready(function () {
 
 })
 
+//Preventing XSS client-side in JavaScript
+const htmlEncode = function(str) {
+  //function htmlEncode(str)
+    return String(str).replace(/[^\w. ]/gi, function(c) {
+      return '&#' + c.charCodeAt(0) + ';';
+    });
+  };
+
+  module.exports = { htmlEncode }
 
 

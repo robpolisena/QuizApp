@@ -1,5 +1,4 @@
 // Counting the quizzes Score
-
 $(document).ready(function () {
 
   let counts = {
@@ -24,7 +23,6 @@ $(document).ready(function () {
     const count = Object.values(counts).filter(
       (eachCount) => eachCount === true
     ).length;
-    console.log('THIS IS THE COUNT', count);
     $("#score").val(count);
   });
 
