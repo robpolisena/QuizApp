@@ -1,20 +1,58 @@
 const express = require("express");
 const dbParams = require("../lib/db");
 const router = express.Router();
+const app = express();
+
+const bodyParser = require("body-parser");
+router.use(bodyParser.urlencoded({extended: true}));
+const bcrypt = require('bcryptjs');
+const cookieSession = require('cookie-session');
+const { request } = require("express");
+const saltRounds = 10;
+
+router.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+
+
+//app.use(cookieParser());
+app.set("view engine", "ejs");
 
 module.exports = (db) => {
+ //retrieve username
+ const userName = async (userid) => {
+  let query = `SELECT users.name as userName
+      FROM users
+      WHERE users.id = ${userid}`;
+     return await db.query(query)
+  .then((data) => {
+     return data.rows[0].username;
+  })
+  .catch((err) => {
+  console.log(err, 'first userName error');
+  })
+  }
+
   router.get("/new", (req, res) => {
+    const userId = req.session['user_id'];
+    userName(userId)
+    .then(person => {
     let query = `SELECT quizzes.name as quiz, users.name as user, users.id as userId
                     FROM quizzes
                     JOIN users ON owner_id = users.id;`;
-    db.query(query).then((data) => {
-      const userId = data.rows[0].userid;
-      const userLogin = data.rows[0].user;
-      res.render("create_quiz_form", { userLogin, userId });
-    });
-  });
+      db.query(query).then((data) => {
+        const myQuizzes = data.rows;
+      res.render("create_quiz_form", { person, userId, myQuizzes} );
+    }).catch((err) => {
+      res.status(500).json({ error: err.message });
+     });
+   });
+});
 
   router.post("/new", (req, res) => {
+    // const quiz_category = [1, 2, 3, 4, 5];
+    // const [ Sports, Animals, Vehicle, Celebrities, Entertaiment ] = quiz_category;
     const {
       quiz_name,
       quiz_category,
@@ -46,7 +84,9 @@ module.exports = (db) => {
     } = req.body;
 
     // [userId, quizNane, categoryId, public/private, completed, score]
-    const quizValues = [1, quiz_name, 1, true, true, 10];
+    const idForUser = req.session['user_id'];
+    console.log('THIS IS THE ID FOR THE USER', idForUser)
+    const quizValues = [idForUser, quiz_name, 1, true, true, 10];
 
     // questions
     const questionValues = [
@@ -253,8 +293,32 @@ module.exports = (db) => {
         insertAllQuestionOptions(questionOptions);
       })
       .catch((e) => console.log(e));
-    res.render("index");
+    res.redirect("/");
+  });
+
+  router.post("/result", (req, res) => {
+    //console.log("THIS IS WHERE YOU ARE", req.body);
+    const score = req.body.score;
+    const quizId = req.body.quiz_id;
+    res.render("results-box", { score });
+  });
+
+  router.post("/private", (req, res) => {
+    console.log('req.body===>', req.body)
+    console.log('req.params===>', req.params)
+    const quiz_id = req.params.id;
+    const queryValues = [false, quiz_id]
+    const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
+    db.query(query, queryValues)
+      .then((data) => {
+
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
   });
 
   return router;
 };
+
+

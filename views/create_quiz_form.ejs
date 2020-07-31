@@ -1,88 +1,48 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>QuizApp</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    <!-- Bootstrap link  -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    <!-- FontAwesome Link  -->
-    <link
-      rel="stylesheet"
-      href="path/to/font-awesome/css/font-awesome.min.css"
-    />
-    <!-- Google fonts  -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Iconify Link  -->
-    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-    <!-- JQuery  -->
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <title>QuizApp</title>
-    <!-- Stylesheeets  -->
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link
-      rel="stylesheet"
-      href="/QuizApp/styles/layout.scss"
-      type="text/scss"
-    />
-    <link
-      rel="stylesheet"
-      href="/QuizApp/styles/header.scss"
-      type="text/scss"
-    />
-    <!-- Javascript  -->
-    <script type="text/javascript" src="/scripts/app.js"></script>
-  </head>
-  <body>
-    <!-- Navbar  -->
-    <%- include('partials/_header') %>
-    <div>
-      <div class="row">
-        <!-- Profile section  -->
-        <div class="col-3">
-          <div>
-            <span
-              class="quiz-profile iconify"
-              data-icon="carbon:user-avatar-filled"
-              data-inline="false"
-            ></span
-            ><span class="profile-name"> Welcome <%= userLogin %></span>
-          </div>
-          <div class="my_quizzes_btn">
-            <div>
-              <a href="/users/myQuizzes/<%= userId %>"
-                ><button
-                  type="button"
-                  button
-                  class="btn btn-danger btn-rounded"
-                >
-                  My Quizzes
-                </button></a
-              >
-            </div>
-            <div>
-              <button type="button" class="btn btn-info btn-rounded">
-                Completed Quizzes
-              </button>
-            </div>
-          </div>
+<html lang="en">
+
+<head>
+  <!-- Bootstrap link  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <!-- FontAwesome Link  -->
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <!-- Google fonts  -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+  <!-- Iconify Link  -->
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <!-- JQuery  -->
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <title>QuizApp</title>
+  <!-- Stylesheeets  -->
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/QuizApp/styles/layout.scss" type="text/scss" />
+  <link rel="stylesheet" href="/QuizApp/styles/header.scss" type="text/scss" />
+  <!-- Javascript  -->
+</head>
+
+<body>
+  <!-- Navbar  -->
+  <%- include('partials/_header') %>
+  <div class="big-container">
+    <div class="row">
+      <div class="col-3 profile">
+        <div id="avatar-div"><span id="avatar" class="iconify" data-icon="bi:person-bounding-box" data-inline="false"></span></div>
+        <div><span class="profile-name"> Welcome <%= person %></span> </div>
+        <div class="my_quizzes_btn">
+           <div><a href="/users/myQuizzes/<%= userId %>"><button type="button" button
+                class="btn btn-danger btn-rounded">My Quizzes</button></a></div>
+          <div><button type="button" class="btn btn-info btn-rounded">Completed Quizzes</button></div>
         </div>
-        <div class="col-9 main-container">
-          <!-- Form to create a quiz  -->
+      </div>
+      <div class="col-9" class='main-container'>
+
+        <span>
+          <h2><span class="iconify" data-icon="bi:patch-question" data-inline="false"></span> Create a quiz <span class="iconify" data-icon="bi:patch-question" data-inline="false"></span> </h2>
           <form action="/quizzes/new" method="POST">
             <!-- <div class="quiz-container"> -->
             <div class="question-text">
@@ -336,16 +296,13 @@
               </div>
             </div>
             <div class='submit_btns'>
-            <button id='submit_quiz_public' type="submit" class="btn btn-info btn-rounded">
-              Submit a public quiz
-            </button>
-            <button id='submit_quiz_private' type="submit" class="btn btn-info btn-rounded">
-              Submit a private quiz
-            </button>
+              <a href="/users/quizzes>"> <button id='submit_quiz_public' type="submit" class="btn btn-info btn-rounded">  Submit </button></a>
             </div>
           </form>
         </span>
       </div>
+      <span>
+      </span>
     </div>
     <!-- </div>
   </section> -->
@@ -359,12 +316,6 @@
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"></script>
 </body>
-
 </html>
-
-
-
-
-
 
 
