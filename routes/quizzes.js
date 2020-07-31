@@ -19,37 +19,37 @@ router.use(cookieSession({
 app.set("view engine", "ejs");
 
 module.exports = (db) => {
- //retrieve username
- const userName = async (userid) => {
-  let query = `SELECT users.name as userName
+  //retrieve username
+  const userName = async(userid) => {
+    let query = `SELECT users.name as userName
       FROM users
       WHERE users.id = ${userid}`;
-     return await db.query(query)
-  .then((data) => {
-     return data.rows[0].username;
-  })
-  .catch((err) => {
-  console.log(err, 'first userName error');
-  })
-  }
+    return await db.query(query)
+      .then((data) => {
+        return data.rows[0].username;
+      })
+      .catch((err) => {
+        console.log(err, 'first userName error');
+      });
+  };
 
   router.get("/new", (req, res) => {
     const userId = req.session['user_id'];
 
     // sanity check to make sure userId has a value
     userName(userId)
-    .then(person => {
-    let query = `SELECT quizzes.name as quiz, quizzes.id AS quizId, users.name as user, users.id as userId
+      .then(person => {
+        let query = `SELECT quizzes.name as quiz, quizzes.id AS quizId, users.name as user, users.id as userId
                     FROM quizzes
                     JOIN users ON owner_id = users.id;`;
-      db.query(query).then((data) => {
-        const myQuizzes = data.rows;
-      res.render("create_quiz_form", { person, userId, myQuizzes} );
-    }).catch((err) => {
-      res.status(500).json({ error: err.message });
-     });
-   });
-});
+        db.query(query).then((data) => {
+          const myQuizzes = data.rows;
+          res.render("create_quiz_form", { person, userId, myQuizzes});
+        }).catch((err) => {
+          res.status(500).json({ error: err.message });
+        });
+      });
+  });
 
   router.post("/new", (req, res) => {
     const {
@@ -85,21 +85,21 @@ module.exports = (db) => {
 
 
     const idForUser = req.session['user_id'];
-    const cat_id = req.body.quiz_category
+    const cat_id = req.body.quiz_category;
 
-    const getCategoryId = function (cat_id){
+    const getCategoryId = function(cat_id) {
       if (cat_id === 'Sports') {
-        return 1
+        return 1;
       } else if (cat_id === 'Animals') {
-        return 2
+        return 2;
       } else if (cat_id === 'Vehicles') {
-        return 3
+        return 3;
       } else if (cat_id === 'Celebrities') {
-        return 4
-      } else if(cat_id === 'Entertainment') {
-        return 5
+        return 4;
+      } else if (cat_id === 'Entertainment') {
+        return 5;
       }
-    }
+    };
 
     const quizValues = [idForUser, quiz_name, getCategoryId(cat_id), true, true, 10];
 
@@ -137,7 +137,7 @@ module.exports = (db) => {
       question5_answer,
     ];
 
-    const insertQuiz = function (quizValues) {
+    const insertQuiz = function(quizValues) {
       const quizQuerry = `INSERT INTO quizzes (owner_id, name, category_id, isPublic, isReady, date_created, points_allocated) VALUES ($1, $2, $3, $4, $5, now()::date, $6) RETURNING id AS quiz_id;`;
       return db
         .query(quizQuerry, quizValues)
@@ -147,7 +147,7 @@ module.exports = (db) => {
         .catch((err) => console.error("query error", err.stack));
     };
 
-    const insertQuestions = function (questionValues) {
+    const insertQuestions = function(questionValues) {
       const questionQuerry = `INSERT INTO questions (question) VALUES ($1), ($2), ($3), ($4), ($5) RETURNING id as question_id;`;
       return db
         .query(questionQuerry, questionValues)
@@ -157,7 +157,7 @@ module.exports = (db) => {
         .catch((err) => console.error("query error", err.stack));
     };
 
-    const insertQuizQuestion = function (quizId, questionId) {
+    const insertQuizQuestion = function(quizId, questionId) {
       const quizQuestionQuerry = `INSERT INTO quiz_question (quiz_id, question_id) VALUES ($1, $2) RETURNING id AS quizQuestion_id;`;
       return db
         .query(quizQuestionQuerry, [quizId, questionId])
@@ -167,13 +167,13 @@ module.exports = (db) => {
         .catch((err) => console.error("query error", err.stack));
     };
 
-    const insertAllQuizQuestions = function (quiz_id, questionsIds) {
+    const insertAllQuizQuestions = function(quiz_id, questionsIds) {
       for (let questionIdObj of questionsIds) {
         insertQuizQuestion(quiz_id, questionIdObj.question_id);
       }
     };
 
-    const createQuestionOptions = function (questionsIds, optionsIds) {
+    const createQuestionOptions = function(questionsIds, optionsIds) {
       const questionOptions = {};
 
       const questionMap = {
@@ -238,7 +238,7 @@ module.exports = (db) => {
       return questionOptions;
     };
 
-    const insertOptions = function (optionValues) {
+    const insertOptions = function(optionValues) {
       const query = `INSERT INTO options (option) VALUES ($1), ($2), ($3), ($4), ($5), ($6), ($7), ($8), ($9), ($10), ($11), ($12), ($13), ($14), ($15), ($16), ($17), ($18), ($19), ($20) RETURNING id AS option_id`;
 
       return db
@@ -249,7 +249,7 @@ module.exports = (db) => {
         .catch((e) => console.log(e));
     };
 
-    const inserQuestionAnswer = function (questionId, answerId) {
+    const inserQuestionAnswer = function(questionId, answerId) {
       const query = `INSERT INTO question_answer (question_id, answer_id) VALUES ($1, $2)`;
 
       db.query(query, [questionId, answerId])
@@ -257,7 +257,7 @@ module.exports = (db) => {
         .catch((err) => console.log(err.message));
     };
 
-    const insertAllQuestionAnswers = function (questionOptions) {
+    const insertAllQuestionAnswers = function(questionOptions) {
       for (let questionObj of questionOptions) {
         inserQuestionAnswer(
           questionObj.questionId,
@@ -266,7 +266,7 @@ module.exports = (db) => {
       }
     };
 
-    const insertQuestionOption = function (questionId, optionId) {
+    const insertQuestionOption = function(questionId, optionId) {
       const query = `INSERT INTO question_option (question_id, option_id) VALUES($1, $2)`;
 
       db.query(query, [questionId, optionId])
@@ -274,7 +274,7 @@ module.exports = (db) => {
         .catch((err) => console.log(err.message));
     };
 
-    const insertAllQuestionOptions = function (questionOptions) {
+    const insertAllQuestionOptions = function(questionOptions) {
       for (let questionObj of questionOptions) {
         for (let optionObj of questionObj.options) {
           insertQuestionOption(questionObj.questionId, optionObj.optionId);
@@ -310,20 +310,20 @@ module.exports = (db) => {
   router.post("/result", (req, res) => {
     const userId = req.session['user_id'];
     userName(userId)
-    .then(person => {
-    //get the user_id
-    const quizId = req.body.quiz_id;
-    const score = req.body.score;
-    const queryValues = [quizId, userId, score]
-    const query = `INSERT INTO completed_quizzes (quiz_id, player_id, score, completed_date, points_gotten) VALUES ($1, $2, $3, now()::date, 0) RETURNING id;`;
-    db.query(query, queryValues)
-      .then((data) => {
-        res.redirect(`/quizzes/result/${data.rows[0].id}`);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err.message });
+      .then(person => {
+        //get the user_id
+        const quizId = req.body.quiz_id;
+        const score = req.body.score;
+        const queryValues = [quizId, userId, score];
+        const query = `INSERT INTO completed_quizzes (quiz_id, player_id, score, completed_date, points_gotten) VALUES ($1, $2, $3, now()::date, 0) RETURNING id;`;
+        db.query(query, queryValues)
+          .then((data) => {
+            res.redirect(`/quizzes/result/${data.rows[0].id}`);
+          })
+          .catch((err) => {
+            res.status(500).json({ error: err.message });
+          });
       });
-  });
   });
 
   router.get('/result/:id', (req, res) => {
@@ -333,20 +333,20 @@ module.exports = (db) => {
     db.query(query, queryValues)
       .then((data) => {
         userName(userId)
-    .then(person => {
-      res.render("results-box", { score: data.rows[0].score, userId, person });
-    })
-      })
+          .then(person => {
+            res.render("results-box", { score: data.rows[0].score, userId, person });
+          });
+      });
 
-  })
+  });
 
   router.post("/private", (req, res) => {
     const quiz_id = req.body.quiz_id;
-    const queryValues = [false, quiz_id]
+    const queryValues = [false, quiz_id];
     const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
     db.query(query, queryValues)
       .then((data) => {
-        res.status(204).send()
+        res.status(204).send();
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
@@ -356,11 +356,11 @@ module.exports = (db) => {
 
   router.post("/public", (req, res) => {
     const quiz_id = req.body.quiz_id;
-    const queryValues = [true, quiz_id]
+    const queryValues = [true, quiz_id];
     const query = `UPDATE quizzes SET isPublic = $1 WHERE quizzes.id = $2`;
     db.query(query, queryValues)
       .then((data) => {
-        res.status(204).send()
+        res.status(204).send();
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
