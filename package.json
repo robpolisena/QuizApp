@@ -18,6 +18,7 @@
     "chalk": "^2.4.2",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
+    "chownr": "1.1.4",
     "dotenv": "^2.0.0",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
