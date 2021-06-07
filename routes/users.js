@@ -397,7 +397,7 @@ module.exports = (db) => {
       if (row.email === req.body.email) {
         res.status(400).send("Error: This email already exists!");
       }
-      return res.end;
+      return res.end();
     });
 
     let { name, email, password } = req.body;
