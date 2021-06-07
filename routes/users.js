@@ -378,7 +378,7 @@ module.exports = (db) => {
     });
   };
 
-  router.post("/register", (req, res) => {
+  router.post("/register", async (req, res) => {
     if (req.body.email === "") {
       res
         .status(400)
