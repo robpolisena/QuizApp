@@ -379,6 +379,9 @@ module.exports = (db) => {
   };
 
   router.post("/register", async (req, res) => {
+    console.log("step 1");
+    console.log("step 1 text", req.body.email);
+
     if (req.body.email === "") {
       res
         .status(400)
@@ -393,13 +396,17 @@ module.exports = (db) => {
           "Error: Please enter a password, please click your back button to continue"
         );
     }
-    findEmail(req.body.email).then((row) => {
-      if (row.email === req.body.email) {
-        res.status(400).send("Error: This email already exists!");
-      }
-      return;
-    });
-
+    console.log("step 2");
+    // findEmail(req.body.email).then((row) => {
+    //   console.log("step 3");
+    //   console.log(row);
+    //   if (row.email === req.body.email) {
+    //     res.status(400).send("Error: This email already exists!");
+    //   }
+    //   console.log("we are here now");
+    //   return;
+    // });
+    console.log("step 4");
     let { name, email, password } = req.body;
     let hashedPassword = bcrypt.hashSync(password, saltRounds);
     let userValues = [name, email, hashedPassword];
@@ -413,11 +420,11 @@ module.exports = (db) => {
         })
         .catch((err) => console.error("query error", err.stack));
     };
-
+    console.log("step 5");
     insertUser(userValues)
       .then((result) => {
         req.session["user_id"] = result.user_id;
-
+        console.log("step 6");
         res.redirect("/users/quizzes");
       })
       .catch((e) => {
