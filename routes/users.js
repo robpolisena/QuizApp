@@ -416,6 +416,7 @@ module.exports = (db) => {
       return db
         .query(usersQuerry, userValues)
         .then((userRes) => {
+          console.log("return userrows", userRes);
           return userRes.rows[0];
         })
         .catch((err) => console.error("query error", err.stack));
@@ -423,7 +424,10 @@ module.exports = (db) => {
     console.log("step 5");
     insertUser(userValues)
       .then((result) => {
+        console.log("result step 1", result);
+        console.log("result step 2", result.user_id);
         req.session["user_id"] = result.user_id;
+        console.log(req.session.user_id);
         console.log("step 6");
         res.redirect("/users/quizzes");
       })
